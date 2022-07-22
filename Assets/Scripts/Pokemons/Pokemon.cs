@@ -6,10 +6,8 @@ public class Pokemon
 {
     public PokemonBase Base { get; set; }
     public int Level { get; set; }
-
     public int HP { get; set; }
     public List<Move> Moves { get; set; }
-
     public Pokemon(PokemonBase pBase, int pLevel)
     {
         Base = pBase;
@@ -58,9 +56,6 @@ public class Pokemon
     {
         get { return Mathf.FloorToInt((Base.Speed * Level) / 100f )+ 10;  }
     }
-
-    
-    
     public DamageDetails TakeDamage(Move move, Pokemon attacker)
     {
         float critical = 1f;

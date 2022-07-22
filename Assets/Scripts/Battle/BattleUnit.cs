@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,17 +13,72 @@ public class BattleUnit : MonoBehaviour
 
     public Pokemon Pokemon { get; set; }
 
+    private Image image;
+    private Vector3 orginalPos;
+    private Color orginalColor;
+
+    private void Awake()
+    {
+        image = GetComponent<Image>();
+        orginalPos = image.transform.localPosition;
+        orginalColor = image.color;
+    }
+
     public void SetUp()
     {
         Pokemon = new Pokemon(_base, level);
         if (isPlayer)
         {
-            GetComponent<Image>().sprite = Pokemon.Base.BackSprite;
+            image.sprite = Pokemon.Base.BackSprite;
         }
         else
         {
-            GetComponent<Image>().sprite = Pokemon.Base.FontSprite;
+            image.sprite = Pokemon.Base.FontSprite;
         }
+        PlayEnterAnimation();
     }
 
+    public void PlayEnterAnimation()
+    {
+        if (isPlayer)
+        {
+            gameObject.transform.localPosition = new Vector3(-1163, orginalPos.y);
+        }
+        else
+        {
+            gameObject.transform.localPosition = new Vector3(1163, orginalPos.y);
+        }
+
+        gameObject.transform.DOLocalMoveX(orginalPos.x, 1f);
+    }
+
+    public void PlayAttackAnimation()
+    {
+        var sequence = DOTween.Sequence();
+        if (isPlayer)
+        {
+            sequence.Append(gameObject.transform.DOLocalMoveX(orginalPos.x + 50f, 0.25f));
+        }
+        else
+        {
+            sequence.Append(gameObject.transform.DOLocalMoveX(orginalPos.x - 50f, 0.25f));
+        }
+        
+        sequence.Append(gameObject.transform.DOLocalMoveX(orginalPos.x, 0.25f));
+    }
+
+    public void PlayHitAnimation()
+    {
+        var sequence = DOTween.Sequence();
+        sequence.Append(image.DOColor(Color.gray, 0.1f));
+        sequence.Append(image.DOColor(orginalColor, 0.1f));
+    }
+
+    public void PlayFaintAnimation()
+    {
+        var sequence = DOTween.Sequence();
+        sequence.Append(gameObject.transform.DOLocalMoveY(orginalPos.y - 80f, 0.5f));
+        sequence.Join(image.DOFade(0f, 0.5f));
+    }
+    
 }
