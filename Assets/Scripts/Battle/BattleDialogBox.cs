@@ -19,7 +19,6 @@ public class BattleDialogBox : MonoBehaviour
 
     [SerializeField] private Text ppText;
     [SerializeField] private Text typeText;
-    
 
     public void SetDialog(string dialog)
     {
@@ -34,6 +33,7 @@ public class BattleDialogBox : MonoBehaviour
             dialogText.text += letter;
             yield return new WaitForSeconds(1f / lettersPerSecond);
         }
+        yield return new WaitForSeconds(1f);
     }
 
     public void EnableDialogText(bool enable)

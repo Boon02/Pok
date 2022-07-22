@@ -26,6 +26,8 @@ public class PokemonBase : ScriptableObject
 
     [SerializeField] private List<LearnableMove> learnableMoves;
 
+    
+    
     public string Name
     {
         get { return name; }
@@ -128,3 +130,43 @@ public enum PokemonType
     Ghost,
     Dragon
 }
+
+public class TypeChart
+{
+    private static float[][] Chart =
+    {
+        //                    NOR  FIR  WAT  ELE  GRA  ICE  FIG  POI 
+        /*NOR*/ new float[] { 1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f},
+        /*FIR*/ new float[] { 1f, 0.5f,0.5f, 1f,  2f,  2f,  1f,  1f},
+        /*WAT*/ new float[] { 1f, 2f,  0.5f, 2f, 0.5f, 1f,  1f,  1f},
+        /*ELE*/ new float[] { 1f, 1f,   2f,0.5f, 0.5f, 2f,  1f,  1f},
+        /*GRS*/ new float[] { 1f, 0.5f, 2f,  2f, 0.5f, 1f,  1f,  0.5f},
+        /*POI*/ new float[] { 1f, 1f,   1f,  1f,   2f, 1f,  1f,  1f},
+    };
+
+    public static float GetEffectiveness(PokemonType attackType, PokemonType defenseType)
+    {
+        if (attackType == PokemonType.None || defenseType == PokemonType.None)
+        {
+            return 1f;
+        }
+
+        int row = (int)attackType - 1;
+        int col = (int)defenseType - 1;
+        return Chart[row][col];
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
