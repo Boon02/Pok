@@ -35,6 +35,8 @@ public class BattleUnit : MonoBehaviour
         {
             image.sprite = Pokemon.Base.FontSprite;
         }
+
+        image.color = orginalColor;
         PlayEnterAnimation();
     }
 

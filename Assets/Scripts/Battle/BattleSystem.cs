@@ -17,10 +17,11 @@ public class BattleSystem : MonoBehaviour
     private int currentMove = 0;
     
     private BattleState State;
+    public event Action<bool> OnBattleOver;
     
-    private void Start()
+    public void StartBattle()
     {
-        StartCoroutine( SetUpBattle());
+        StartCoroutine(SetUpBattle());
     }
 
     IEnumerator SetUpBattle()
@@ -56,6 +57,7 @@ public class BattleSystem : MonoBehaviour
         State = BattleState.Busy;
         
         var move = playerUnit.Pokemon.Moves[currentMove];
+        move.PP--;
         yield return dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} used {move.Base.Name}!");
         
         playerUnit.PlayAttackAnimation();
@@ -71,6 +73,9 @@ public class BattleSystem : MonoBehaviour
         {
             yield return dialogBox.TypeDialog($"{enemyUnit.Pokemon.Base.Name} is Fainted!");
             enemyUnit.PlayFaintAnimation();
+
+            yield return new WaitForSeconds(2f);
+            OnBattleOver(true);
         }
         else
         {
@@ -84,6 +89,7 @@ public class BattleSystem : MonoBehaviour
         State = BattleState.EnemyMove;
         
         var move = enemyUnit.Pokemon.GetRandomMove();
+        move.PP--;
         yield return dialogBox.TypeDialog($"{enemyUnit.Pokemon.Base.Name} used {move.Base.Name}!");
         
         enemyUnit.PlayAttackAnimation();
@@ -99,6 +105,9 @@ public class BattleSystem : MonoBehaviour
         {
             yield return dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} is Fainted!");
             playerUnit.PlayFaintAnimation();
+            
+            yield return new WaitForSeconds(2f);
+            OnBattleOver(false);
         }
         else
         {
@@ -127,7 +136,7 @@ public class BattleSystem : MonoBehaviour
         }
     }
     
-    private void Update()
+    public void HandleUpdate()
     {
         if (State == BattleState.PlayerAction)
         {
