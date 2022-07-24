@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class PlayerControl : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     public float moveSpeed;
     public LayerMask solidObejctsLayer;

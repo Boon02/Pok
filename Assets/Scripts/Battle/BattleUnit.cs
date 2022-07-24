@@ -7,8 +7,6 @@ using UnityEngine.UI;
 
 public class BattleUnit : MonoBehaviour
 {
-    [SerializeField] private PokemonBase _base;
-    [SerializeField] private int level;
     [SerializeField] private bool isPlayer;
 
     public Pokemon Pokemon { get; set; }
@@ -24,9 +22,9 @@ public class BattleUnit : MonoBehaviour
         orginalColor = image.color;
     }
 
-    public void SetUp()
+    public void SetUp(Pokemon pokemon)
     {
-        Pokemon = new Pokemon(_base, level);
+        Pokemon = pokemon;
         if (isPlayer)
         {
             image.sprite = Pokemon.Base.BackSprite;

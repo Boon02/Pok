@@ -15,19 +15,27 @@ public class BattleSystem : MonoBehaviour
 
     private int currentAction = 0;
     private int currentMove = 0;
+    private PokemonParty playerParty;
+    private Pokemon wildPokemon;
     
     private BattleState State;
+    
+    
     public event Action<bool> OnBattleOver;
     
-    public void StartBattle()
+    public void StartBattle(PokemonParty playerParty, Pokemon wildPokemon)
     {
+        this.playerParty = playerParty;
+        this.wildPokemon = wildPokemon;
         StartCoroutine(SetUpBattle());
     }
 
     IEnumerator SetUpBattle()
     {
-        playerUnit.SetUp();
-        enemyUnit.SetUp();
+        // thay đổi image (back sprite - font sprite)
+        playerUnit.SetUp(playerParty.GetHealthyPokemon());
+        enemyUnit.SetUp(wildPokemon);
+        // set hud
         playerHud.SetData(playerUnit.Pokemon);
         enemyHud.SetData(enemyUnit.Pokemon);
 
@@ -107,7 +115,24 @@ public class BattleSystem : MonoBehaviour
             playerUnit.PlayFaintAnimation();
             
             yield return new WaitForSeconds(2f);
-            OnBattleOver(false);
+            
+            var nextPokemon = playerParty.GetHealthyPokemon();
+            if (nextPokemon != null)
+            {
+                // thay đổi image (back sprite - font sprite)
+                playerUnit.SetUp(nextPokemon);
+                // set hud
+                playerHud.SetData(nextPokemon);
+
+                dialogBox.SetMoveNames(nextPokemon.Moves);
+        
+                yield return dialogBox.TypeDialog($"Go {nextPokemon.Base.Name}!");
+                PlayerAction();
+            }
+            else
+            {
+                OnBattleOver(false);
+            }
         }
         else
         {

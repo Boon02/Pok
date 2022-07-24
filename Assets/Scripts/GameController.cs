@@ -2,11 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public enum GameState{ FreeRoam, Battle}
 public class GameController : MonoBehaviour
 {
-    [SerializeField] private PlayerControl playerControl;
+    [FormerlySerializedAs("playerControl")] [SerializeField] private PlayerController playerController;
     [SerializeField] private BattleSystem battleSystem;
     [SerializeField] private Camera worldCamera;
     
@@ -16,7 +17,7 @@ public class GameController : MonoBehaviour
     {
         battleSystem.gameObject.SetActive(false);
         worldCamera.gameObject.SetActive(true);
-        playerControl.OnEcountered += StartBattle;
+        playerController.OnEcountered += StartBattle;
         battleSystem.OnBattleOver += EndBattle;
     }
 
@@ -25,7 +26,10 @@ public class GameController : MonoBehaviour
         State = GameState.Battle;
         battleSystem.gameObject.SetActive(true);
         worldCamera.gameObject.SetActive(false);
-        battleSystem.StartBattle();
+
+        var playerParty = playerController.GetComponent<PokemonParty>();
+        var wildPokemon = FindObjectOfType<MapArea>().GetComponent<MapArea>().GetRandomWildPokemon();
+        battleSystem.StartBattle(playerParty, wildPokemon);
     }
 
     private void EndBattle(bool won)
@@ -39,7 +43,7 @@ public class GameController : MonoBehaviour
     {
         if(State == GameState.FreeRoam)
         {
-            playerControl.HandleUpdate();
+            playerController.HandleUpdate();
         }
         else if (State == GameState.Battle)
         {
