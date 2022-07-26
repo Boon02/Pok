@@ -210,6 +210,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08d59f2a66d89914896f4b576a6d1bf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hightlightedColor: {r: 0.1481844, g: 0.18022434, b: 0.8490566, a: 1}
   nameText: {fileID: 785795531269197154}
   levelText: {fileID: 785795530915379100}
   hpBar: {fileID: 785795531193073229}

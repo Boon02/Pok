@@ -8,7 +8,7 @@ public class PartyScreen : MonoBehaviour
     [SerializeField] private Text messageText;
 
     PartyMemberUI[] memberSlots;
-    
+    private List<Pokemon> pokemons;
     public void Init()
     {
         memberSlots = GetComponentsInChildren<PartyMemberUI>();
@@ -16,6 +16,7 @@ public class PartyScreen : MonoBehaviour
 
     public void SetPartyData(List<Pokemon> pokemons)
     {
+        this.pokemons = pokemons;
         for (int i = 0; i < memberSlots.Length; i++)
         {
             if (i < pokemons.Count)
@@ -29,5 +30,25 @@ public class PartyScreen : MonoBehaviour
         }
 
         messageText.text = "Choose a pokemon!";
+    }
+    
+    public void UpdateMemberSelection(int selectedMove)
+    {
+        for (int i = 0; i < pokemons.Count; i++)
+        {
+            if (i == selectedMove)
+            {
+                memberSlots[i].SetSelected(true);
+            }
+            else
+            {
+                memberSlots[i].SetSelected(false);
+            }
+        }
+    }
+
+    public void SetMessage(string message)
+    {
+        messageText.text = message;
     }
 }
