@@ -2,12 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public enum GameState{ FreeRoam, Battle}
 public class GameController : MonoBehaviour
 {
-    [FormerlySerializedAs("playerControl")] [SerializeField] private PlayerController playerController;
+    [SerializeField] private PlayerController playerController;
     [SerializeField] private BattleSystem battleSystem;
     [SerializeField] private Camera worldCamera;
     
