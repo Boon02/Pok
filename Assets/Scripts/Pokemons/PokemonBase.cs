@@ -112,6 +112,15 @@ public class LearnableMove
     }
 }
 
+public enum Stat
+{
+    Attack,
+    SpAttack,
+    Defense,
+    SpDefense,
+    Speed
+}
+
 public enum PokemonType
 {
     None,

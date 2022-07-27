@@ -105,12 +105,27 @@ public class BattleSystem : MonoBehaviour
         yield return new WaitForSeconds(1f);
         
         targetUnit.PlayHitAnimation();
-        var damageDetails =  targetUnit.Pokemon.TakeDamage(move, sourceUnit.Pokemon);
+
+        if (move.Base.Category == MoveCategory.Status)
+        {
+            var effects = move.Base.Effects;
+            if(effects.Boosts != null )
+            {
+                if(move.Base.Target == MoveTarget.Self)
+                    sourceUnit.Pokemon.ApplyBoosts(effects.Boosts);
+                else
+                    targetUnit.Pokemon.ApplyBoosts(effects.Boosts);
+            }
+        }
+        else
+        {
+            var damageDetails =  targetUnit.Pokemon.TakeDamage(move, sourceUnit.Pokemon);
         
-        yield return targetUnit.Hud.UpdateHp();
-        yield return ShowDamageDetails(damageDetails);
+            yield return targetUnit.Hud.UpdateHp();
+            yield return ShowDamageDetails(damageDetails);
+        }
         
-        if (damageDetails.Fainted)
+        if (targetUnit.Pokemon.HP <= 0)
         {
             yield return dialogBox.TypeDialog($"{targetUnit.Pokemon.Base.Name} is Fainted!");
             
@@ -230,7 +245,8 @@ public class BattleSystem : MonoBehaviour
             dialogBox.EnableDialogText(true);
             dialogBox.EnableMoveSelection(false);
             StartCoroutine(PlayerMove());
-        } else if (Input.GetKeyDown(KeyCode.X))
+        } 
+        else if (Input.GetKeyDown(KeyCode.X))
         {
             dialogBox.EnableDialogText(true);
             dialogBox.EnableMoveSelection(false);
