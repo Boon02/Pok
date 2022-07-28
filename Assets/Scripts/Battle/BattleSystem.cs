@@ -132,6 +132,7 @@ public class BattleSystem : MonoBehaviour
             yield return ShowDamageDetails(damageDetails);
         }
         
+        // checkTarget
         if (targetUnit.Pokemon.HP <= 0)
         {
             yield return dialogBox.TypeDialog($"{targetUnit.Pokemon.Base.Name} is Fainted!");
@@ -140,6 +141,21 @@ public class BattleSystem : MonoBehaviour
             yield return new WaitForSeconds(2f);
             
             CheckForBattleFainted(targetUnit);
+        }
+        
+        sourceUnit.Pokemon.OnAfterTurn();
+        yield return ShowStatusChanges(sourceUnit.Pokemon);
+        yield return sourceUnit.Hud.UpdateHp();
+        
+        //checkSource
+        if (sourceUnit.Pokemon.HP <= 0)
+        {
+            yield return dialogBox.TypeDialog($"{sourceUnit.Pokemon.Base.Name} is Fainted!");
+            
+            sourceUnit.PlayFaintAnimation();
+            yield return new WaitForSeconds(2f);
+            
+            CheckForBattleFainted(sourceUnit);
         }
     }
 
@@ -169,12 +185,20 @@ public class BattleSystem : MonoBehaviour
     IEnumerator RunMoveEffect(Move move, Pokemon source, Pokemon target)
     {
         var effects = move.Base.Effects;
+        
+        //Stat Boosting
         if(effects.Boosts != null )
         {
             if(move.Base.Target == MoveTarget.Self)
                 source.ApplyBoosts(effects.Boosts);
             else
                 target.ApplyBoosts(effects.Boosts);
+        }
+
+        // Status Codition
+        if (effects.Status != CoditionID.none)
+        {
+            target.SetStatus(effects.Status);
         }
 
         yield return ShowStatusChanges(source);

@@ -23,11 +23,9 @@ public class PokemonBase : ScriptableObject
     [SerializeField] private int spAttack;
     [SerializeField] private int spDefense;
     [SerializeField] private int speed;
-
+    
     [SerializeField] private List<LearnableMove> learnableMoves;
 
-    
-    
     public string Name
     {
         get { return name; }
@@ -87,12 +85,11 @@ public class PokemonBase : ScriptableObject
     {
         get { return speed; }
     }
-
+    
     public List<LearnableMove> LearnableMoves
     {
         get { return learnableMoves; }
     }
-
 }
 
 [System.Serializable]
@@ -125,32 +122,48 @@ public enum PokemonType
 {
     None,
     Normal,
-    Fire,
-    Water,
-    Electric,
-    Grass,
-    Ice,
-    Fighting,
-    Poison,
-    Flying,
-    Psychic,
-    Bug,
-    Rock,
-    Ghost,
-    Dragon
+    Fight,
+    Flying,      
+    Poison,    
+    Ground, 
+    Rock,   
+    Bug,    
+    Ghost,    
+    Steel,   
+    Fire,       
+    Water,       
+    Grass,     
+    Electric,   
+    Psychic,  
+    Ice,      
+    Dragon,  
+    Dark,     
+    Fairy,
 }
 
 public class TypeChart
 {
     private static float[][] Chart =
     {
-        //                    NOR  FIR  WAT  ELE  GRA  ICE  FIG  POI 
-        /*NOR*/ new float[] { 1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f},
-        /*FIR*/ new float[] { 1f, 0.5f,0.5f, 1f,  2f,  2f,  1f,  1f},
-        /*WAT*/ new float[] { 1f, 2f,  0.5f, 2f, 0.5f, 1f,  1f,  1f},
-        /*ELE*/ new float[] { 1f, 1f,   2f,0.5f, 0.5f, 2f,  1f,  1f},
-        /*GRS*/ new float[] { 1f, 0.5f, 2f,  2f, 0.5f, 1f,  1f,  0.5f},
-        /*POI*/ new float[] { 1f, 1f,   1f,  1f,   2f, 1f,  1f,  1f},
+        //                         NOR    FIG  FLY   POI GROUND ROCK   BUG   GOS  STEEL  FIRE   WAT   GRS  ELE   PSY   ICE   DRA    DARK  FAI
+        /*NORMAL*/    new float[] { 1f,   1f,   1f,   1f, 0.5f,   1f,   0f, 0.5f,   1f,   1f,   1f,   1f,   1f,   1f,   1f,   1f,   1f,   1f},
+        /*FIGHT*/     new float[] { 2f,   1f, 0.5f, 0.5f,   1f,   2f, 0.5f,   0f,   2f,   1f,   1f,   1f,   1f, 0.5f,   2f,   1f,   2f, 0.5f},
+        /*FLYING*/    new float[] { 1f,   2f,   1f,   1f,   1f, 0.5f,   2f,   1f, 0.5f,   1f,   1f,   2f, 0.5f,   1f,   1f,   1f,   1f,   1f},  
+        /*POISON*/    new float[] { 1f,   1f,   1f, 0.5f, 0.5f, 0.5f,   1f, 0.5f,   0f,   1f,   1f,   2f,   1f,   1f,   1f,   1f,   1f,   2f},
+        /*GROUND*/    new float[] { 1f,   1f,   0f,   2f,   1f,   2f, 0.5f,   1f,   2f,   2f,   1f, 0.5f,   2f,   1f,   1f,   1f,   1f,   1f},
+        /*ROCK*/      new float[] { 1f, 0.5f,   2f,   1f, 0.5f,   1f,   2f,   1f, 0.5f,   2f,   1f,   1f,   1f,   1f,   2f,   1f,   1f,   1f},
+        /*BUG*/       new float[] { 1f, 0.5f, 0.5f, 0.5f,   1f,   1f,   1f, 0.5f, 0.5f, 0.5f,   1f,   2f,   1f,   2f,   1f,   1f,   2f, 0.5f},
+        /*GHOST*/     new float[] { 0f,   1f,   1f,   1f,   1f,   1f,   1f,   2f,   1f,   1f,   1f,   1f,   1f,   2f,   1f,   1f, 0.5f,   1f},
+        /*STEEL*/     new float[] { 1f,   1f,   1f,   1f,   1f,   2f,   1f,   1f, 0.5f, 0.5f, 0.5f,   1f, 0.5f,   1f,   2f,   1f,   1f,   2f},
+        /*FIRE*/      new float[] { 1f,   1f,   1f,   1f,   1f, 0.5f,   2f,   1f,   2f, 0.5f, 0.5f,   2f,   1f,   1f,   2f, 0.5f,   1f,   1f}, 
+        /*WATER*/     new float[] { 1f,   1f,   1f,   1f,   2f,   2f,   1f,   1f,   1f,   2f, 0.5f, 0.5f,   1f,   1f,   1f, 0.5f,   1f,   1f},  
+        /*GRASS*/     new float[] { 1f,   1f, 0.5f, 0.5f,   2f,   2f, 0.5f,   1f, 0.5f, 0.5f,   2f, 0.5f,   1f,   1f,   1f, 0.5f,   1f,   1f}, 
+        /*ELECTRIC*/  new float[] { 1f,   1f,   2f,   1f,   0f,   1f,   1f,   1f,   1f,   1f,   2f, 0.5f, 0.5f,   1f,   1f, 0.5f,   1f,   1f},  
+        /*PSYCHIC*/   new float[] { 1f,   2f,   1f,   2f,   1f,   1f,   1f,   1f, 0.5f,   1f,   1f,   1f,   1f, 0.5f,   1f,   1f,   0f,   1f},
+        /*ICE*/       new float[] { 1f,   1f,   2f,   1f,   2f,   1f,   1f,   1f, 0.5f, 0.5f, 0.5f,   2f,   1f,   1f, 0.5f,   2f,   1f,   1f},
+        /*DRAGON*/    new float[] { 1f,   1f,   1f,   1f,   1f,   1f,   1f,   1f, 0.5f,   1f,   1f,   1f,   1f,   1f,   1f,   2f,   1f,   0f},
+        /*DARK*/      new float[] { 1f, 0.5f,   1f,   1f,   1f,   1f,   1f,   2f,   1f,   1f,   1f,   1f,   1f,   2f,   1f,   1f, 0.5f, 0.5f},
+        /*FAIRY*/     new float[] { 1f,   2f,   1f, 0.5f,   1f,   1f,   1f,   1f, 0.5f, 0.5f,   1f,   1f,   1f,   1f,   1f,   2f,   2f,   1f},
     };
 
     public static float GetEffectiveness(PokemonType attackType, PokemonType defenseType)
