@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [System.Serializable]
@@ -29,6 +30,9 @@ public class Pokemon
     public List<Move> Moves { get; set; }
     public Dictionary<Stat, int> Stats { get; private set; }
     public Dictionary<Stat, int> StatBoosts { get; private set; }   // Cấp độ của từng giá trị
+
+
+    public Queue<string> StatusChanges = new Queue<string>();
     
     public void Init()
     {
@@ -47,17 +51,9 @@ public class Pokemon
         CalculationStats();
         
         HP = MaxHp;
-
-        StatBoosts = new Dictionary<Stat, int>()
-        {
-            { Stat.Attack, 0 },
-            { Stat.Defense, 0 },
-            { Stat.SpAttack, 0 },
-            { Stat.SpDefense, 0 },
-            { Stat.Speed, 0 },
-        };
+        
+        ResetStatBoost();
     }
-
     void CalculationStats()
     {
         Stats = new Dictionary<Stat, int>();
@@ -70,6 +66,18 @@ public class Pokemon
         MaxHp =  Mathf.FloorToInt((Base.Speed * Level) / 100f )+ 10;
     }
 
+    void ResetStatBoost()
+    {
+        StatBoosts = new Dictionary<Stat, int>()
+        {
+            { Stat.Attack, 0 },
+            { Stat.Defense, 0 },
+            { Stat.SpAttack, 0 },
+            { Stat.SpDefense, 0 },
+            { Stat.Speed, 0 },
+        };
+    }
+    
     public void ApplyBoosts(List<StatBoost> statBoosts)
     {
         foreach (var statBoost in statBoosts)
@@ -78,6 +86,11 @@ public class Pokemon
             var boost = statBoost.boost;
 
             StatBoosts[stat] = StatBoosts[stat] + boost;
+            
+            if(boost > 0)
+                StatusChanges.Enqueue($"{Base.Name}'s {stat} rose!");
+            else
+                StatusChanges.Enqueue($"{Base.Name}'s {stat} fell!");
             
             Debug.Log($"{stat} has been boosted to {StatBoosts[stat]}.");
         }
@@ -164,6 +177,11 @@ public class Pokemon
     {
         int r = Random.Range(0, Moves.Count);
         return Moves[r];
+    }
+
+    public void BattleOver()
+    {
+        ResetStatBoost();
     }
 }
 
