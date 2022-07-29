@@ -5,6 +5,7 @@ using UnityEngine;
 
 public enum GameState{ FreeRoam, Battle}
 public class GameController : MonoBehaviour
+
 {
     [SerializeField] private PlayerController playerController;
     [SerializeField] private BattleSystem battleSystem;

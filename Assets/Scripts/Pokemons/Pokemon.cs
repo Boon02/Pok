@@ -18,8 +18,9 @@ public class Pokemon
     public List<Move> Moves { get; set; }
     public Dictionary<Stat, int> Stats { get; private set; }
     public Dictionary<Stat, int> StatBoosts { get; private set; }   // Cấp độ của từng giá trị
-    public Codition Status { get; private set; }
-
+    public Codition Status { get; private set; } = new Codition();
+    public int StatusTime { get; set; }
+    
     public Queue<string> StatusChanges = new Queue<string>();
     public bool HpChanged { get; set; }
     
@@ -177,6 +178,7 @@ public class Pokemon
     public void SetStatus(CoditionID coditionID)
     {
         Status = CoditionDB.Codisions[coditionID];
+        Status?.OnStart?.Invoke(this);
         StatusChanges.Enqueue($"{Base.Name} {Status.StartMessage}");
     }
 
@@ -190,6 +192,21 @@ public class Pokemon
     public void OnAfterTurn()
     {
         Status.OnAfterTurn?.Invoke(this); // toán tử điều kiện - chỉ thực hiện hàm khi "this" khắc null
+    }
+
+    public bool OnBeforMove()
+    {
+        if (Status?.OnBeforMove != null)
+        {
+            return Status.OnBeforMove(this);
+        }
+
+        return true;
+    }
+
+    public void CureStatus()
+    {
+        Status = null;
     }
 }
 

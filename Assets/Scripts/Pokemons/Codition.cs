@@ -8,5 +8,7 @@ public class Codition
     
     public string StartMessage { get; set; }
 
+    public Action<Pokemon> OnStart { get; set; }
+    public Func<Pokemon, bool> OnBeforMove { get; set; }
     public Action<Pokemon> OnAfterTurn { get; set; }
 }
