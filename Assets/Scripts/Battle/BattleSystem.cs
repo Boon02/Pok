@@ -118,6 +118,7 @@ public class BattleSystem : MonoBehaviour
         if (!canMove)
         {
             yield return ShowStatusChanges(sourceUnit.Pokemon);
+            yield return sourceUnit.Hud.UpdateHp();
             yield break;
         }
 
@@ -204,11 +205,16 @@ public class BattleSystem : MonoBehaviour
         }
 
         // Status Codition
-        if (effects.Status != CoditionID.none)
+        if (effects.Status != ConditionID.none)
         {
             target.SetStatus(effects.Status);
         }
 
+        if (effects.VolatileStatus != ConditionID.none)
+        {
+            target.SetStatus(effects.VolatileStatus);
+        }
+        
         yield return ShowStatusChanges(source);
         yield return ShowStatusChanges(target);
     }

@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [System.Serializable]
 public class Pokemon
@@ -18,11 +20,14 @@ public class Pokemon
     public List<Move> Moves { get; set; }
     public Dictionary<Stat, int> Stats { get; private set; }
     public Dictionary<Stat, int> StatBoosts { get; private set; }   // Cấp độ của từng giá trị
-    public Codition Status { get; private set; } = new Codition();
+    public Condition Status { get; private set; }
+    public Condition VolatileStatus { get; private set; }
     public int StatusTime { get; set; }
+    public int VolatileStatusTime { get; set; }
     
     public Queue<string> StatusChanges = new Queue<string>();
     public bool HpChanged { get; set; }
+    public event Action OnStatusChanged;
     
     
     public void Init()
@@ -44,6 +49,9 @@ public class Pokemon
         HP = MaxHp;
         
         ResetStatBoost();
+
+        VolatileStatus = null;
+        Status = null;
     }
     void CalculationStats()
     {
@@ -54,7 +62,7 @@ public class Pokemon
         Stats.Add(Stat.SpDefense, Mathf.FloorToInt((Base.SpDefense * Level) / 100f )+ 5);
         Stats.Add(Stat.Speed,  Mathf.FloorToInt((Base.Speed * Level) / 100f )+ 5);
         
-        MaxHp =  Mathf.FloorToInt((Base.Speed * Level) / 100f )+ 10;
+        MaxHp =  Mathf.FloorToInt((Base.Speed * Level) / 100f )+ 10 + level;
     }
 
     void ResetStatBoost()
@@ -170,16 +178,34 @@ public class Pokemon
         return Moves[r];
     }
 
-    public void BattleOver()
+    public void SetStatus(ConditionID conditionID)
     {
-        ResetStatBoost();
-    }
-
-    public void SetStatus(CoditionID coditionID)
-    {
-        Status = CoditionDB.Codisions[coditionID];
+        if (Status != null) return;
+        
+        Status = ConditionDB.Conditions[conditionID];
         Status?.OnStart?.Invoke(this);
         StatusChanges.Enqueue($"{Base.Name} {Status.StartMessage}");
+        OnStatusChanged?.Invoke();
+    }
+    
+    public void SetVolatileStatus(ConditionID conditionID)
+    {
+        if (VolatileStatus != null) return;
+        
+        VolatileStatus = ConditionDB.Conditions[conditionID];
+        VolatileStatus?.OnStart?.Invoke(this);
+        StatusChanges.Enqueue($"{Base.Name} {Status.StartMessage}");
+    }
+    
+    public void CureStatus()
+    {
+        Status = null;
+        OnStatusChanged?.Invoke();
+    }
+    
+    public void CureVolatileStatus()
+    {
+        VolatileStatus = null;
     }
 
     // nhận damage trừ máu
@@ -189,25 +215,34 @@ public class Pokemon
         HpChanged = true;
     }
     
-    public void OnAfterTurn()
-    {
-        Status.OnAfterTurn?.Invoke(this); // toán tử điều kiện - chỉ thực hiện hàm khi "this" khắc null
-    }
-
     public bool OnBeforMove()
     {
+        bool canPerformMove = true;
         if (Status?.OnBeforMove != null)
         {
-            return Status.OnBeforMove(this);
+            if (!Status.OnBeforMove(this))
+                canPerformMove = false;
+        }
+        if (VolatileStatus?.OnBeforMove != null)
+        {
+            if (!VolatileStatus.OnBeforMove(this))
+                canPerformMove = false;
         }
 
-        return true;
+        return canPerformMove;
+    }
+    
+    public void OnAfterTurn()
+    {
+        Status?.OnAfterTurn?.Invoke(this); // toán tử điều kiện - chỉ thực hiện hàm khi "this" khắc null
     }
 
-    public void CureStatus()
+    public void BattleOver()
     {
-        Status = null;
+        VolatileStatus = null;
+        ResetStatBoost();
     }
+    
 }
 
 public class DamageDetails

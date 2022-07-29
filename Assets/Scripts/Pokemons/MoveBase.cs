@@ -64,16 +64,21 @@ public class MoveBase : ScriptableObject
 public class MoveEffects
 {
     [SerializeField] private List<StatBoost> boosts;
-    [SerializeField] private CoditionID status;
+    [SerializeField] private ConditionID status;
+    [SerializeField] private ConditionID volatileStatus;
 
     public List<StatBoost> Boosts
     {
         get { return boosts; }
     }
     
-    public CoditionID Status
+    public ConditionID Status
     {
         get { return status; }
+    }
+    public ConditionID VolatileStatus
+    {
+        get { return volatileStatus; }
     }
 }
 

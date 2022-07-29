@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23550dabb7ab6a243bc2efa971832cc0, type: 3}
   m_Name: PoisonPower
   m_EditorClassIdentifier: 
-  name: PoisonPower
+  name: Poison Power
   description: 
   type: 4
   pp: 20
@@ -22,4 +22,5 @@ MonoBehaviour:
   effects:
     boosts: []
     status: 1
+    volatileStatus: 0
   target: 0

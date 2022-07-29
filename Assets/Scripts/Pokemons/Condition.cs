@@ -1,7 +1,8 @@
 using System;
 
-public class Codition
+public class Condition
 {
+    public ConditionID ID { get; set; }
     public string Name { get; set; }
     
     public string Description { get; set; }

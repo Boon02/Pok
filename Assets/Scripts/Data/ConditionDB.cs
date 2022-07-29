@@ -2,14 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CoditionDB
+// True : được đánh
+// False : ko được đánh
+public class ConditionDB
 {
-    public static Dictionary<CoditionID, Codition> Codisions { get; set; } 
-        = new Dictionary<CoditionID, Codition>()
+    public static void Init()
+    {
+        foreach (var kvp in Conditions)
+        {
+            var conditionID = kvp.Key;
+            var conditionValue = kvp.Value;
+
+            conditionValue.ID = conditionID;
+        }
+    }
+    
+    public static Dictionary<ConditionID, Condition> Conditions { get; set; } 
+        = new Dictionary<ConditionID, Condition>()
         {
             {
-                CoditionID.psn,
-                new Codition()
+                ConditionID.psn,
+                new Condition()
                 {
                     Name = "psn",
                     StartMessage = "has been poison",
@@ -21,8 +34,8 @@ public class CoditionDB
                 }
             },
             {
-                CoditionID.brn,
-                new Codition()
+                ConditionID.brn,
+                new Condition()
                 {
                     Name = "Burn",
                     StartMessage = "has been poison",
@@ -34,8 +47,8 @@ public class CoditionDB
                 }
             },
             {
-                CoditionID.par,
-                new Codition()
+                ConditionID.par,
+                new Condition()
                 {
                     Name = "Paralyze",
                     StartMessage = "has been Paralyze ",
@@ -54,8 +67,8 @@ public class CoditionDB
                 }
             },
             {
-                CoditionID.frz,
-                new Codition()
+                ConditionID.frz,
+                new Condition()
                 {
                     Name = "Freeze",
                     StartMessage = "has been frozen ",
@@ -75,8 +88,8 @@ public class CoditionDB
                 }
             },
             {
-                CoditionID.slp,
-                new Codition()
+                ConditionID.slp,
+                new Condition()
                 {
                     Name = "Sleep",
                     StartMessage = "has fallen asleep",
@@ -100,17 +113,55 @@ public class CoditionDB
                         return false;
                     }
                 }
+            },
+            
+            // Volatile Status Conditions
+            {
+                ConditionID.confusion,
+                new Condition()
+                {
+                    Name = "Confusion",
+                    StartMessage = "has fallen confused",
+                    OnStart = (Pokemon pokemon) =>
+                    {
+                        //slp for 1-4 turn
+                        pokemon.VolatileStatusTime = Random.Range(1, 5);
+                        Debug.Log($"Will be confused for {pokemon.VolatileStatusTime} move");
+                    },
+                    OnBeforMove = (Pokemon pokemon) =>
+                    {
+                        if (pokemon.VolatileStatusTime <= 0)
+                        {
+                            pokemon.CureVolatileStatus();
+                            pokemon.StatusChanges.Enqueue($"{pokemon.Base.Name} kicked out of confusion!");
+                            return true;
+                        }
+
+                        pokemon.VolatileStatusTime--;
+
+                        if (Random.Range(1, 3) == 1)
+                        {
+                            return true;
+                        }
+
+                        pokemon.StatusChanges.Enqueue($"{pokemon.Base.Name} is confused!");
+                        pokemon.UpdateHP(pokemon.MaxHp / 8);
+                        pokemon.StatusChanges.Enqueue($"It hurt itself due to confusion!");
+                        return false;
+                    }
+                }
             }
         };
 }
 
-public enum CoditionID
+public enum ConditionID
 {
     none,
     psn,    // độc tố - poison
     brn,    // đốt cháy
     slp,    // ngủ
     par,    // tê liệt
-    frz     // đóng băng
+    frz,    // đóng băng
+    confusion
     
 }

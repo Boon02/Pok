@@ -13,6 +13,11 @@ public class GameController : MonoBehaviour
     
     private GameState State;
 
+    private void Awake()
+    {
+        ConditionDB.Init();
+    }
+
     private void Start()
     {
         battleSystem.gameObject.SetActive(false);
