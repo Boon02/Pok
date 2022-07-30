@@ -274,10 +274,10 @@ RectTransform:
   m_Father: {fileID: 343474309}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 119.09, y: -52.3}
+  m_SizeDelta: {x: 228.18, y: 104.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &92341982
 MonoBehaviour:
@@ -13346,10 +13346,10 @@ RectTransform:
   m_Father: {fileID: 343474309}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 347.27, y: -156.9}
+  m_SizeDelta: {x: 228.18, y: 104.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &782810950
 MonoBehaviour:
@@ -13456,7 +13456,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1065603647
 Transform:
   m_ObjectHideFlags: 0
@@ -14017,10 +14017,10 @@ RectTransform:
   m_Father: {fileID: 343474309}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 119.09, y: -156.9}
+  m_SizeDelta: {x: 228.18, y: 104.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1358231678
 MonoBehaviour:
@@ -15082,10 +15082,10 @@ RectTransform:
   m_Father: {fileID: 343474309}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 347.27, y: -52.3}
+  m_SizeDelta: {x: 228.18, y: 104.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1968896766
 MonoBehaviour:
@@ -15382,9 +15382,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pokemons:
-  - _base: {fileID: 11400000, guid: e7fe19b67ff8bac4588c4a096f1521b3, type: 2}
-    level: 10
   - _base: {fileID: 11400000, guid: 0ab5ec1b026b0354fb530251f6525d42, type: 2}
+    level: 10
+  - _base: {fileID: 11400000, guid: e7fe19b67ff8bac4588c4a096f1521b3, type: 2}
     level: 10
   - _base: {fileID: 11400000, guid: 87b9d60939cd0d84fba102bc295f67ba, type: 2}
     level: 10
