@@ -15,6 +15,15 @@ MonoBehaviour:
   name: Tackle
   description: 
   type: 1
-  pp: 20
+  pp: 1
+  priority: 0
   power: 40
   accuracy: 100
+  alwaysHits: 0
+  category: 0
+  effects:
+    boosts: []
+    status: 0
+    volatileStatus: 0
+  secondaries: []
+  target: 0
