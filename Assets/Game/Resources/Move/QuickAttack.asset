@@ -10,21 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 23550dabb7ab6a243bc2efa971832cc0, type: 3}
-  m_Name: SandAttack
+  m_Name: QuickAttack
   m_EditorClassIdentifier: 
-  name: Sand Attack
+  name: Quick Attack
   description: 
   type: 1
-  pp: 40
-  priority: 0
-  power: 0
+  pp: 20
+  priority: 1
+  power: 40
   accuracy: 100
   alwaysHits: 0
-  category: 2
+  category: 0
   effects:
-    boosts:
-    - stat: 5
-      boost: -1
+    boosts: []
     status: 0
     volatileStatus: 0
   secondaries: []

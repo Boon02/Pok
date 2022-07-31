@@ -63,7 +63,7 @@ public class Pokemon
         Stats.Add(Stat.SpDefense, Mathf.FloorToInt((Base.SpDefense * Level) / 100f )+ 5);
         Stats.Add(Stat.Speed,  Mathf.FloorToInt((Base.Speed * Level) / 100f )+ 5);
         
-        MaxHp =  Mathf.FloorToInt((Base.Speed * Level) / 100f )+ 10 + level;
+        MaxHp =  Mathf.FloorToInt((Base.MaxHp * Level) / 100f )+ 10 + level;
     }
 
     void ResetStatBoost()
@@ -177,8 +177,10 @@ public class Pokemon
     //lấy CHIÊU THỨC bất kì
     public Move GetRandomMove()
     {
-        int r = Random.Range(0, Moves.Count);
-        return Moves[r];
+        var movesWithPP = Moves.Where(x => x.PP > 0).ToList();
+        
+        int r = Random.Range(0, movesWithPP.Count);
+        return movesWithPP[r];
     }
 
     public void SetStatus(ConditionID conditionID)
