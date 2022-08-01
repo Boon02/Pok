@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum GameState{ FreeRoam, Battle}
+public enum GameState{ FreeRoam, Battle, Dialog}
 public class GameController : MonoBehaviour
 
 {
@@ -16,14 +16,26 @@ public class GameController : MonoBehaviour
     private void Awake()
     {
         ConditionDB.Init();
+        playerController.OnEcountered += StartBattle;
+        battleSystem.OnBattleOver += EndBattle;
+
+        DialogManager.Instance.OnShowDialog += () =>
+        {
+            State = GameState.Dialog;
+        };
+        
+        DialogManager.Instance.OnCloseDialog += () =>
+        {
+            if (State == GameState.Dialog) 
+                State = GameState.FreeRoam;
+        };
     }
 
     private void Start()
     {
         battleSystem.gameObject.SetActive(false);
         worldCamera.gameObject.SetActive(true);
-        playerController.OnEcountered += StartBattle;
-        battleSystem.OnBattleOver += EndBattle;
+        
     }
 
     private void StartBattle()
@@ -53,6 +65,10 @@ public class GameController : MonoBehaviour
         else if (State == GameState.Battle)
         {
             battleSystem.HandleUpdate();
+        }
+        else if (State == GameState.Dialog)
+        {
+            DialogManager.Instance.HanldeUpdate();
         }
     }
 }
