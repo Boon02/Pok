@@ -18,7 +18,14 @@ public class GameController : MonoBehaviour
         ConditionDB.Init();
         playerController.OnEcountered += StartBattle;
         battleSystem.OnBattleOver += EndBattle;
+        
+    }
 
+    private void Start()
+    {
+        battleSystem.gameObject.SetActive(false);
+        worldCamera.gameObject.SetActive(true);
+        
         DialogManager.Instance.OnShowDialog += () =>
         {
             State = GameState.Dialog;
@@ -29,13 +36,6 @@ public class GameController : MonoBehaviour
             if (State == GameState.Dialog) 
                 State = GameState.FreeRoam;
         };
-    }
-
-    private void Start()
-    {
-        battleSystem.gameObject.SetActive(false);
-        worldCamera.gameObject.SetActive(true);
-        
     }
 
     private void StartBattle()
