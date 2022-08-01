@@ -15,10 +15,10 @@ public class PlayerController : MonoBehaviour
     
     private Vector2 input;
     private bool isMoving;
-    private Animator anim;
+    private CharacterAnimator anim;
     private void Awake()
     {
-        anim = GetComponent<Animator>();
+        anim = GetComponent<CharacterAnimator>();
     }
 
     public void HandleUpdate()
@@ -30,8 +30,8 @@ public class PlayerController : MonoBehaviour
             
             if (input != Vector2.zero)
             {
-                anim.SetFloat("moveX", input.x);
-                anim.SetFloat("moveY", input.y);
+                anim.MoveX = input.x;
+                anim.MoveY = input.y;
                 
                 var targetPos = transform.position;
                 
@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
             }
         }
         
-        anim.SetBool("isMoving", isMoving);
+        anim.IsMoving = isMoving;
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
@@ -52,7 +52,7 @@ public class PlayerController : MonoBehaviour
 
     void Interact()
     {
-        var facingDir = new Vector3(anim.GetFloat("moveX"), anim.GetFloat("moveY"));
+        var facingDir = new Vector3(anim.MoveX, anim.MoveY);
         var interacPos = transform.position + facingDir;
         
         //Debug.DrawLine(transform.position, interacPos, Color.green, 0.5f);
@@ -94,7 +94,7 @@ public class PlayerController : MonoBehaviour
         {
             if (Random.Range(1, 101) <= 10)
             {
-                anim.SetBool("isMoving", false);
+                anim.IsMoving = false;
                 OnEcountered();
             }
         }
