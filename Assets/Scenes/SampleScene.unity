@@ -13404,6 +13404,7 @@ GameObject:
   - component: {fileID: 1057301569}
   - component: {fileID: 1057301568}
   - component: {fileID: 1057301570}
+  - component: {fileID: 1057301571}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -13456,6 +13457,27 @@ MonoBehaviour:
   dialogBox: {fileID: 2069861675}
   dialogText: {fileID: 1721309077}
   lettersPerSecond: 45
+--- !u!114 &1057301571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1057301567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef13126808b13894d88a085275de6cc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  solidObejctsLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  interactableLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  grassLayer:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!1 &1065603646
 GameObject:
   m_ObjectHideFlags: 0
@@ -14250,6 +14272,7 @@ GameObject:
   - component: {fileID: 1438355154}
   - component: {fileID: 1438355153}
   - component: {fileID: 1438355152}
+  - component: {fileID: 1438355156}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -14339,6 +14362,21 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1438355156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1438355151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 409796d277b28734485b058136ce3c18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogBox: {fileID: 2069861675}
+  dialogText: {fileID: 1721309077}
+  lettersPerSecond: 45
 --- !u!1001 &1709731649
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15675,10 +15713,10 @@ GameObject:
   m_Component:
   - component: {fileID: 2077614757}
   - component: {fileID: 2077614756}
-  - component: {fileID: 2077614755}
   - component: {fileID: 2077614758}
   - component: {fileID: 2077614759}
   - component: {fileID: 2077614760}
+  - component: {fileID: 2077614761}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -15686,26 +15724,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!95 &2077614755
-Animator:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2077614754}
-  m_Enabled: 0
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 06bb34632ed4bde4f86daf2ad72ad211, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 1
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!212 &2077614756
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -15786,16 +15804,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50037fc7eddfed647b665828b446e5e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
-  solidObejctsLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  interactableLayer:
-    serializedVersion: 2
-    m_Bits: 256
-  grassLayer:
-    serializedVersion: 2
-    m_Bits: 128
 --- !u!114 &2077614759
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15853,6 +15861,19 @@ MonoBehaviour:
   - {fileID: -790699523677361007, guid: 3111f23cd57d2be48b2ee6bac4a23588, type: 3}
   - {fileID: 8470420716495695676, guid: 3111f23cd57d2be48b2ee6bac4a23588, type: 3}
   - {fileID: 6167071470516247665, guid: 3111f23cd57d2be48b2ee6bac4a23588, type: 3}
+--- !u!114 &2077614761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2077614754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d64cf619878c42a42aa66fbd34497e19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 5
 --- !u!1 &2079230381
 GameObject:
   m_ObjectHideFlags: 0

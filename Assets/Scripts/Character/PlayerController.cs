@@ -6,43 +6,30 @@ using Random = UnityEngine.Random;
 
 public class PlayerController : MonoBehaviour
 {
-    public float moveSpeed;
-    public LayerMask solidObejctsLayer;
-    public LayerMask interactableLayer;
-    public LayerMask grassLayer;
-
     public event Action OnEcountered;
     
     private Vector2 input;
-    private bool isMoving;
-    private CharacterAnimator anim;
+    
+    private Character character;
     private void Awake()
     {
-        anim = GetComponent<CharacterAnimator>();
+        character = GetComponent<Character>();
     }
 
     public void HandleUpdate()
     {
-        if (!isMoving)
+        if (!character.IsMoving)
         {
             input.x = Input.GetAxisRaw("Horizontal");
             input.y = Input.GetAxisRaw("Vertical");
             
             if (input != Vector2.zero)
             {
-                anim.MoveX = input.x;
-                anim.MoveY = input.y;
-                
-                var targetPos = transform.position;
-                
-                targetPos.x += input.x;
-                targetPos.y += input.y;
-                if(IsWalkable(targetPos))
-                    StartCoroutine(Move(targetPos));
+                StartCoroutine(character.Move(input, CheckForEncounter));
             }
         }
         
-        anim.IsMoving = isMoving;
+        character.HandleUpdate();
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
@@ -52,49 +39,25 @@ public class PlayerController : MonoBehaviour
 
     void Interact()
     {
-        var facingDir = new Vector3(anim.MoveX, anim.MoveY);
+        var facingDir = new Vector3(character.Animator.MoveX, character.Animator.MoveY);
         var interacPos = transform.position + facingDir;
         
         //Debug.DrawLine(transform.position, interacPos, Color.green, 0.5f);
 
-        var collider = Physics2D.OverlapCircle(interacPos, 0.2f, interactableLayer);
+        var collider = Physics2D.OverlapCircle(interacPos, 0.2f, GameLayers.i.InteractableLayer);
         if(collider != null)
         {
             collider.GetComponent<Interactable>()?.Interact();
         }
     }
 
-    IEnumerator Move(Vector3 targetPos)
-    {
-        isMoving = true;
-        while ((targetPos - transform.position).sqrMagnitude > Mathf.Epsilon)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime);
-            yield return null;
-        }
-
-        transform.position = targetPos;
-        isMoving = false;
-        CheckForEncounter();
-    }
-
-    private bool IsWalkable(Vector3 targetPos)
-    {
-        if (Physics2D.OverlapCircle(targetPos, 0.2f, solidObejctsLayer | interactableLayer) != null)
-        {
-            return false;
-        }
-
-        return true;
-    }
-
     private void CheckForEncounter()
     {
-        if (Physics2D.OverlapCircle(transform.position, 0.2f, grassLayer) != null)
+        if (Physics2D.OverlapCircle(transform.position, 0.2f, GameLayers.i.GrassLayer) != null)
         {
             if (Random.Range(1, 101) <= 10)
             {
-                anim.IsMoving = false;
+                character.Animator.IsMoving = false;
                 OnEcountered();
             }
         }
