@@ -43,8 +43,8 @@ public class BattleUnit : MonoBehaviour
         {
             image.sprite = Pokemon.Base.FontSprite;
         }
-
-        Hud.SetData(pokemon);
+        hud.gameObject.SetActive(true);
+        hud.SetData(pokemon);
         image.color = orginalColor;
         PlayEnterAnimation();
     }
@@ -90,6 +90,16 @@ public class BattleUnit : MonoBehaviour
         var sequence = DOTween.Sequence();
         sequence.Append(gameObject.transform.DOLocalMoveY(orginalPos.y - 80f, 0.5f));
         sequence.Join(image.DOFade(0f, 0.5f));
+    }
+
+    public void Clear()
+    {
+        hud.gameObject.SetActive(false);
+    }
+    
+    public void UnClear()
+    {
+        hud.gameObject.SetActive(true);
     }
     
 }
