@@ -28,8 +28,6 @@ public class BattleDialogBox : MonoBehaviour
     public IEnumerator TypeDialog(string dialog)
     {
         dialogText.text = "";
-        
-        yield return new WaitForSeconds(0.2f);
         foreach (var letter in dialog.ToCharArray())
         {
             dialogText.text += letter;

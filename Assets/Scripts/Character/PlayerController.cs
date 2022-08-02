@@ -6,10 +6,7 @@ using Random = UnityEngine.Random;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private string name;
-    [SerializeField] private Sprite sprite;
     public event Action OnEcountered;
-    public event Action<Collider2D> OnEnterTrainersView;
     
     private Vector2 input;
     
@@ -28,7 +25,7 @@ public class PlayerController : MonoBehaviour
             
             if (input != Vector2.zero)
             {
-                StartCoroutine(character.Move(input, OnMoveOver));
+                StartCoroutine(character.Move(input, CheckForEncounter));
             }
         }
         
@@ -54,12 +51,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnMoveOver()
-    {
-        CheckForEncounter();
-        CheckIfInTrainersView();
-    }
-
     private void CheckForEncounter()
     {
         if (Physics2D.OverlapCircle(transform.position, 0.2f, GameLayers.i.GrassLayer) != null)
@@ -70,25 +61,5 @@ public class PlayerController : MonoBehaviour
                 OnEcountered();
             }
         }
-    }
-
-    private void CheckIfInTrainersView()
-    {
-        var collider = Physics2D.OverlapCircle(transform.position, 0.2f, GameLayers.i.FovLayer);
-        if (collider != null)
-        {
-            character.Animator.IsMoving = false;
-            OnEnterTrainersView?.Invoke(collider);
-        }
-    }
-    
-    public Sprite Sprite
-    {
-        get => sprite;
-    }
-    
-    public string Name
-    {
-        get => name;
     }
 }
