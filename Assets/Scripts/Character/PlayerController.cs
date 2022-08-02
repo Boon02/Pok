@@ -81,7 +81,6 @@ public class PlayerController : MonoBehaviour
             OnEnterTrainersView?.Invoke(collider);
         }
     }
-<<<<<<< HEAD
     
     public Sprite Sprite
     {
@@ -92,6 +91,4 @@ public class PlayerController : MonoBehaviour
     {
         get => name;
     }
-=======
->>>>>>> origin/master
 }
