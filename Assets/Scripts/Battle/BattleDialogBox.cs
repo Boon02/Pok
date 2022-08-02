@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,12 +14,16 @@ public class BattleDialogBox : MonoBehaviour
     [SerializeField] private GameObject actionSelection;
     [SerializeField] private GameObject moveSelection;
     [SerializeField] private GameObject moveDetails;
+    [SerializeField] private GameObject choiceBox;
 
     [SerializeField] private List<Text> actionTexts;
     [SerializeField] private List<Text> moveTexts;
 
     [SerializeField] private Text ppText;
     [SerializeField] private Text typeText;
+    [SerializeField] private Text yesText;
+    [SerializeField] private Text noText;
+    
 
     public void SetDialog(string dialog)
     {
@@ -28,8 +33,6 @@ public class BattleDialogBox : MonoBehaviour
     public IEnumerator TypeDialog(string dialog)
     {
         dialogText.text = "";
-        
-        yield return new WaitForSeconds(0.2f);
         foreach (var letter in dialog.ToCharArray())
         {
             dialogText.text += letter;
@@ -53,6 +56,11 @@ public class BattleDialogBox : MonoBehaviour
         moveSelection.SetActive(enable);
         moveDetails.SetActive(enable);
     }
+    
+    public void EnableChoiceBox(bool enable)
+    {
+        choiceBox.SetActive(enable);
+    }
 
     public void UpdateActionSelection(int selectedAction)
     {
@@ -68,7 +76,7 @@ public class BattleDialogBox : MonoBehaviour
             }
         }
     }
-    
+
     public void UpdateMoveSelection(int selectedMove, Move move)
     {
         for (int i = 0; i < moveTexts.Count; i++)
@@ -111,4 +119,17 @@ public class BattleDialogBox : MonoBehaviour
         }
     }
 
+    
+    public void UpdateChoiceSelection(bool yesSelected)
+    {
+        if (yesSelected)
+        {
+            yesText.color = hightlightedColor;
+            noText.color = Color.black;
+        }else 
+        {
+            yesText.color = Color.black;
+            noText.color = hightlightedColor;
+        }
+    }
 }

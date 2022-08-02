@@ -14,7 +14,7 @@ public class GameController : MonoBehaviour
     public static GameController Instance { get; private set; } 
     
     private GameState State;
-
+    private TrainerController trainerController;
     private void Awake()
     {
         ConditionDB.Init();
@@ -68,6 +68,8 @@ public class GameController : MonoBehaviour
         battleSystem.gameObject.SetActive(true);
         worldCamera.gameObject.SetActive(false);
 
+        trainerController = trainer;
+        
         var playerParty = playerController.GetComponent<PokemonParty>();
         var trainerParty = trainer.GetComponent<PokemonParty>();
         battleSystem.StartTrainerBattle(playerParty, trainerParty);
@@ -75,6 +77,12 @@ public class GameController : MonoBehaviour
 
     private void EndBattle(bool won)
     {
+        if (trainerController != null && won)
+        {
+            trainerController.BattleLost();
+            trainerController = null;
+        }
+        
         State = GameState.FreeRoam;
         battleSystem.gameObject.SetActive(false);
         worldCamera.gameObject.SetActive(true);
