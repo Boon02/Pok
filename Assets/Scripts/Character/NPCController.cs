@@ -38,8 +38,6 @@ public class NPCController : MonoBehaviour, Interactable
 
     private void Update()
     {
-        Debug.Log(state);
-        
         if (state == NPCState.Idle)
         {
             idleTimer += Time.deltaTime;
