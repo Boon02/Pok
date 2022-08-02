@@ -14198,7 +14198,10 @@ GameObject:
   - component: {fileID: 1319075907}
   - component: {fileID: 1319075906}
   - component: {fileID: 1319075913}
+<<<<<<< HEAD
   - component: {fileID: 1319075914}
+=======
+>>>>>>> origin/master
   m_Layer: 8
   m_Name: Trainer
   m_TagString: Untagged
@@ -14380,12 +14383,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2b3b7f5c57caaa4a86c7d69cee571cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
   name: Cool Trainer
   sprite: {fileID: 21300000, guid: fd6b75c8f38ba5040ae0370a786bdb00, type: 3}
+=======
+>>>>>>> origin/master
   dialog:
     lines:
     - My pokemons are strong. Let me show you.
   exclamation: {fileID: 546431061}
+<<<<<<< HEAD
   fov: {fileID: 197274445}
 --- !u!114 &1319075914
 MonoBehaviour:
@@ -14404,6 +14411,9 @@ MonoBehaviour:
     level: 1
   - _base: {fileID: 11400000, guid: e7fe19b67ff8bac4588c4a096f1521b3, type: 2}
     level: 8
+=======
+  fov: {fileID: 0}
+>>>>>>> origin/master
 --- !u!1 &1330338738
 GameObject:
   m_ObjectHideFlags: 0
