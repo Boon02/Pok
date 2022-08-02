@@ -6,6 +6,8 @@ using Random = UnityEngine.Random;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] private string name;
+    [SerializeField] private Sprite sprite;
     public event Action OnEcountered;
     public event Action<Collider2D> OnEnterTrainersView;
     
@@ -78,5 +80,15 @@ public class PlayerController : MonoBehaviour
             character.Animator.IsMoving = false;
             OnEnterTrainersView?.Invoke(collider);
         }
+    }
+    
+    public Sprite Sprite
+    {
+        get => sprite;
+    }
+    
+    public string Name
+    {
+        get => name;
     }
 }
