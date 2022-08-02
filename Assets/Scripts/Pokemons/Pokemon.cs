@@ -53,6 +53,8 @@ public class Pokemon
 
         VolatileStatus = null;
         Status = null;
+        
+        CurrentMove = GetRandomMove();
     }
     void CalculationStats()
     {
