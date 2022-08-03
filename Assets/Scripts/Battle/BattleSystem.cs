@@ -23,6 +23,7 @@ public class BattleSystem : MonoBehaviour
     private int currentAction = 0;
     private int currentMove = 0;
     private int currentMember = 0;
+    private int escapeAttempts;
     private bool aboutToUseChoice = true;
     private PokemonParty playerParty;
     private PokemonParty trainerParty;
@@ -114,6 +115,7 @@ public class BattleSystem : MonoBehaviour
             dialogBox.SetMoveNames(playerUnit.Pokemon.Moves);
         }
 
+        escapeAttempts = 0;
         partyScreen.Init();
         ActionSelection();
     }
@@ -200,6 +202,10 @@ public class BattleSystem : MonoBehaviour
             {
                 dialogBox.EnableActionSelection(false);
                 yield return ThrowPokeball();
+            }else if (playerAction == BattleAction.Run)
+            {
+                dialogBox.EnableActionSelection(false);
+                yield return TryToEscape();
             }
             
             //enemy turn
@@ -450,7 +456,6 @@ public class BattleSystem : MonoBehaviour
 
     public void HandleUpdate()
     {
-        Debug.Log(State);
         if (State == BattleState.ActionSelection)
         {
             HandleActionSelection();
@@ -504,6 +509,7 @@ public class BattleSystem : MonoBehaviour
             else if(currentAction == 3)
             {
                 //Run
+                StartCoroutine(RunTurns(BattleAction.Run));
             }
         }
     }
@@ -676,7 +682,7 @@ public class BattleSystem : MonoBehaviour
             playerParty.AddPokemon(enemyUnit.Pokemon);
             yield return dialogBox.TypeDialog($"{enemyUnit.Pokemon.Base.Name} has been add to your party.");
             
-            Destroy(pokeball);
+            Destroy(pokeballObj);
             BattleOver(true);
         }
         else
@@ -691,31 +697,68 @@ public class BattleSystem : MonoBehaviour
             {
                 yield return dialogBox.TypeDialog($"Almost caught it.");
             }
-            Destroy(pokeball);
+            Destroy(pokeballObj);
 
             State = BattleState.RunningTurn;
         }
-        
-        // 2 for sleep and freeze, 1.5f for paralyze, poison, or burn and 1 otherwise 
-        int TryToCatchPokemon(Pokemon pokemon)
+    }
+    
+    // 2 for sleep and freeze, 1.5f for paralyze, poison, or burn and 1 otherwise 
+    int TryToCatchPokemon(Pokemon pokemon)
+    {
+        float a = (3 * pokemon.MaxHp - 2 * pokemon.HP) * pokemon.Base.CatchRate * ConditionDB.GetStatusBonus(pokemon.Status) /
+                  (3 * pokemon.MaxHp);
+        if (a >= 255)
+            return 4;
+        float b = 1048560 / Mathf.Sqrt(Mathf.Sqrt(16711680 / a));
+
+        int shakeCount = 0;
+        while (shakeCount < 4)
         {
-            float a = (3 * pokemon.MaxHp - 2 * pokemon.HP) * pokemon.Base.CatchRate * ConditionDB.GetStatusBonus(pokemon.Status) /
-                      (3 * pokemon.MaxHp);
-            if (a >= 255)
-                return 4;
-            float b = 1048560 / Mathf.Sqrt(Mathf.Sqrt(16711680 / a));
-
-            int shakeCount = 0;
-            while (shakeCount < 4)
-            {
-                if (Random.Range(0, 65535) > b)
-                    break;
-                ++shakeCount;
-            }
-
-            return shakeCount;
+            if (Random.Range(0, 65535) > b)
+                break;
+            ++shakeCount;
         }
-        
 
+        return shakeCount;
+    }
+    // run from battle
+    IEnumerator TryToEscape()
+    {
+        State = BattleState.Busy;
+    
+        if (isTrainerBattle)
+        {
+            yield return dialogBox.TypeDialog("You can't run from trainer battles!");
+            State = BattleState.RunningTurn;
+            yield break;
+        }
+    
+        ++escapeAttempts;
+                
+        int playerSpeed = playerUnit.Pokemon.Speed;
+        int enemySpeed = enemyUnit.Pokemon.Speed;
+    
+        if (playerSpeed > enemySpeed)
+        {
+            yield return dialogBox.TypeDialog($"Run away safely!");
+            BattleOver(true);
+        }
+        else
+        {
+            float f = (playerSpeed * 128) / enemySpeed + 30 * escapeAttempts;
+            f = f % 256;
+    
+            if (Random.Range(0, 256) <= f)
+            {
+                yield return dialogBox.TypeDialog($"Run away safely!");
+                BattleOver(true);
+            }
+            else
+            {
+                yield return dialogBox.TypeDialog("Can't Escape!");
+                State = BattleState.RunningTurn;
+            }
+        }
     }
 }
