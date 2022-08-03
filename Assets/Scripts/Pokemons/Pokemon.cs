@@ -12,6 +12,14 @@ public class Pokemon
     [SerializeField] private PokemonBase _base;
     [SerializeField] private int level;
 
+    public Pokemon(PokemonBase _base, int level)
+    {
+        this._base = _base;
+        this.level = level;
+
+        Init();
+    }
+
     public PokemonBase Base { get { return _base; } }
 
     public int Level { get { return level; } }
@@ -26,7 +34,7 @@ public class Pokemon
     public int StatusTime { get; set; }
     public int VolatileStatusTime { get; set; }
     
-    public Queue<string> StatusChanges = new Queue<string>();
+    public Queue<string> StatusChanges;
     public bool HpChanged { get; set; }
     public event Action OnStatusChanged;
     
@@ -53,7 +61,8 @@ public class Pokemon
 
         VolatileStatus = null;
         Status = null;
-        
+
+        StatusChanges = new Queue<string>();
         CurrentMove = GetRandomMove();
     }
     void CalculationStats()

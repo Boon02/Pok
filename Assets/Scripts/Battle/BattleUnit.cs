@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class BattleUnit : MonoBehaviour
 {
@@ -43,6 +44,7 @@ public class BattleUnit : MonoBehaviour
         {
             image.sprite = Pokemon.Base.FontSprite;
         }
+        transform.localScale = new Vector3(1f, 1f, 1f);
         hud.gameObject.SetActive(true);
         hud.SetData(pokemon);
         image.color = orginalColor;
@@ -90,6 +92,26 @@ public class BattleUnit : MonoBehaviour
         var sequence = DOTween.Sequence();
         sequence.Append(gameObject.transform.DOLocalMoveY(orginalPos.y - 80f, 0.5f));
         sequence.Join(image.DOFade(0f, 0.5f));
+    }
+    
+    public IEnumerator PlayCaptureAnimation()
+    {
+        var sequence = DOTween.Sequence();
+        sequence.Append(image.DOFade(0f, 0.5f));
+        sequence.Join(transform.DOLocalMoveY(orginalPos.y + 50f, 0.5f));
+        sequence.Join(transform.DOScale(new Vector3(0.3f, 0.3f, 1f), 0.5f));
+
+        yield return sequence.WaitForCompletion();
+    }
+    
+    public IEnumerator PlayBrokeOutAnimation()
+    {
+        var sequence = DOTween.Sequence();
+        sequence.Append(image.DOFade(1f, 0.5f));
+        sequence.Join(transform.DOLocalMoveY(orginalPos.y, 0.5f));
+        sequence.Join(transform.DOScale(new Vector3(1f, 1f, 1f), 0.5f));
+
+        yield return sequence.WaitForCompletion();
     }
 
     public void Clear()

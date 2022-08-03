@@ -23,6 +23,10 @@ public class PokemonBase : ScriptableObject
     [SerializeField] private int spAttack;
     [SerializeField] private int spDefense;
     [SerializeField] private int speed;
+
+    //https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_by_catch_rate
+    // catchRate càng bé càng hiếm
+    [SerializeField] private int catchRate = 255;
     
     [SerializeField] private List<LearnableMove> learnableMoves;
 
@@ -90,6 +94,9 @@ public class PokemonBase : ScriptableObject
     {
         get { return learnableMoves; }
     }
+    
+    public int CatchRate => catchRate; 
+    
 }
 
 [System.Serializable]
