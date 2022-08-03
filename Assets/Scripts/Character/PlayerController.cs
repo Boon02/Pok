@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 
 public class PlayerController : MonoBehaviour
 {
-    [FormerlySerializedAs("offSetX")] [SerializeField] private float offSetY = 0.3f;
+    [SerializeField] private float offSetY = 0.3f;
 
     [SerializeField] private string name;
     [SerializeField] private Sprite sprite;
