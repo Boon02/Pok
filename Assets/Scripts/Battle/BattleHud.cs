@@ -27,7 +27,7 @@ public class BattleHud : MonoBehaviour
         _pokemon = pokemon;
         
         nameText.text = pokemon.Base.Name;
-        levelText.text = "Lvl: " + pokemon.Level;
+        SetLevel();
         hpBar.SetHP((float)pokemon.HP/pokemon.MaxHp);
         SetExp();
         
@@ -67,9 +67,13 @@ public class BattleHud : MonoBehaviour
         expBar.transform.localScale = new Vector3(normalizedExp, 1f, 1f);
     }
     
-    public IEnumerator SetExpSmooth()
+    public IEnumerator SetExpSmooth(bool reset = false)
     {
         if (expBar == null) yield break;
+
+        if (reset)
+            expBar.transform.localScale = new Vector3(0f, 1f, 1f);
+        
         float normalizedExp = GetNormalizedExp();
         yield return expBar.transform.DOScaleX(normalizedExp, 1.5f).WaitForCompletion();
         
@@ -92,6 +96,11 @@ public class BattleHud : MonoBehaviour
             yield return hpBar.SetHPSmooth((float)_pokemon.HP/_pokemon.MaxHp);
             _pokemon.HpChanged = false;
         }
+    }
+
+    public void SetLevel()
+    {
+        levelText.text = "Lvl: " + _pokemon.Level;
     }
 
 }

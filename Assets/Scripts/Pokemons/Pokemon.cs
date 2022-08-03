@@ -127,6 +127,17 @@ public class Pokemon
         return statVal;
     }
 
+    public bool CheckForLevelUp()
+    {
+        if (EXP > Base.GetExpForlevel(level + 1))
+        {
+            ++level;
+            return true;
+        }
+
+        return false;
+    }
+
     public int Attack
     {
         get { return GetStat(Stat.Attack); }

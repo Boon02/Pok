@@ -2,10 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class PlayerController : MonoBehaviour
 {
+    [FormerlySerializedAs("offSetX")] [SerializeField] private float offSetY = 0.3f;
+
     [SerializeField] private string name;
     [SerializeField] private Sprite sprite;
     public event Action OnEcountered;
@@ -62,7 +65,7 @@ public class PlayerController : MonoBehaviour
 
     private void CheckForEncounter()
     {
-        if (Physics2D.OverlapCircle(transform.position, 0.2f, GameLayers.i.GrassLayer) != null)
+        if (Physics2D.OverlapCircle(transform.position - new Vector3(0f, offSetY), 0.2f, GameLayers.i.GrassLayer) != null)
         {
             if (Random.Range(1, 101) <= 10)
             {
