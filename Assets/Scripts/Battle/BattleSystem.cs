@@ -168,6 +168,7 @@ public class BattleSystem : MonoBehaviour
     
     IEnumerator HandlePokemonFainted(BattleUnit faintedUnit)
     {
+        State = BattleState.Busy;
         yield return dialogBox.TypeDialog($"{faintedUnit.Pokemon.Base.Name} is Fainted!");
 
         faintedUnit.PlayFaintAnimation();
@@ -217,7 +218,7 @@ public class BattleSystem : MonoBehaviour
 
         }
 
-        CheckForBattleFainted(faintedUnit);
+        CheckForBattleOver(faintedUnit);
     }
     
     IEnumerator AboutToUse(Pokemon pokemon)
@@ -287,7 +288,7 @@ public class BattleSystem : MonoBehaviour
         }
         
         // red point
-        if (State != BattleState.BattleOver && State != BattleState.PartyScreen)
+        if (State != BattleState.BattleOver)
         {
             ActionSelection();
         }
@@ -349,37 +350,29 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
-    void CheckForBattleFainted(BattleUnit faintedUnit)
+    void CheckForBattleOver(BattleUnit faintedUnit)
     {
         if (faintedUnit.IsPlayer)
         {
             var nextPokemon = playerParty.GetHealthyPokemon();
             if (nextPokemon != null)
-            {
                 OpenPartyScreen();
-            }
-            
             else
                 BattleOver(false);
         }
         else
         {
-            if (!isTrainerBattle)
-            {
-                BattleOver(true);
-            }
-            else
+            if (isTrainerBattle) 
             {
                 var nextPokemon = trainerParty.GetHealthyPokemon();
                 if (nextPokemon == null)
-                {
                     BattleOver(true);
-                }
                 else
-                {
                     StartCoroutine(AboutToUse(nextPokemon));
-                }
             }
+            else
+                BattleOver(true);
+            
         }
         
     }

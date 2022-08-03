@@ -18,7 +18,6 @@ public class GameController : MonoBehaviour
     private void Awake()
     {
         ConditionDB.Init();
-        playerController.OnEcountered += StartBattle;
         battleSystem.OnBattleOver += EndBattle;
         Instance = this;
     }
@@ -27,17 +26,6 @@ public class GameController : MonoBehaviour
     {
         battleSystem.gameObject.SetActive(false);
         worldCamera.gameObject.SetActive(true);
-        
-        playerController.OnEnterTrainersView += (Collider2D trainerCollider) =>
-        {
-            var trainer = trainerCollider.GetComponentInParent<TrainerController>();
-            if (trainer != null)
-            {
-                State = GameState.Cutscene;
-                StartCoroutine(trainer.TriggerTrainerBattle(playerController));
-            }
-            
-        };
 
         DialogManager.Instance.OnShowDialog += () =>
         {
@@ -51,7 +39,7 @@ public class GameController : MonoBehaviour
         };
     }
 
-    private void StartBattle()
+    public void StartBattle()
     {
         State = GameState.Battle;
         battleSystem.gameObject.SetActive(true);
@@ -104,5 +92,11 @@ public class GameController : MonoBehaviour
         {
             DialogManager.Instance.HanldeUpdate();
         }
+    }
+    
+    public void OnEnterTrainersView(TrainerController trainer)
+    {
+        State = GameState.Cutscene;
+        StartCoroutine(trainer.TriggerTrainerBattle(playerController));
     }
 }
