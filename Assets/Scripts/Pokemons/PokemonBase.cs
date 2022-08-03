@@ -23,13 +23,30 @@ public class PokemonBase : ScriptableObject
     [SerializeField] private int spAttack;
     [SerializeField] private int spDefense;
     [SerializeField] private int speed;
+    
+    //https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_by_effort_value_yield
+    [SerializeField] private int expYield;
 
     //https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_by_catch_rate
     // catchRate càng bé càng hiếm
     [SerializeField] private int catchRate = 255;
+    [SerializeField] private GrowthRate growthRate;
     
     [SerializeField] private List<LearnableMove> learnableMoves;
 
+    public int GetExpForlevel(int level)
+    {
+        if (growthRate == GrowthRate.Fast)
+        {
+            return Mathf.FloorToInt(4 * (level * level * level) / 5);
+        }else if (growthRate == GrowthRate.MediumFast)
+        {
+            return level * level * level;
+        }
+
+        return -1;
+    }
+    
     public string Name
     {
         get { return name; }
@@ -96,6 +113,9 @@ public class PokemonBase : ScriptableObject
     }
     
     public int CatchRate => catchRate; 
+    public int ExpYield => expYield;
+    public GrowthRate GrowthRate => growthRate;
+    
     
 }
 
@@ -114,6 +134,12 @@ public class LearnableMove
     {
         get { return level; }
     }
+}
+
+public enum GrowthRate
+{
+    Fast,
+    MediumFast
 }
 
 public enum Stat

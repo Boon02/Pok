@@ -148,6 +148,31 @@ public class BattleSystem : MonoBehaviour
         dialogBox.EnableActionSelection(false);
         dialogBox.EnableMoveSelection(true);
     }
+
+    IEnumerator HandlePokemonFainted(BattleUnit faintedUnit)
+    {
+        yield return dialogBox.TypeDialog($"{faintedUnit.Pokemon.Base.Name} is Fainted!");
+
+        faintedUnit.PlayFaintAnimation();
+        yield return new WaitForSeconds(2f);
+
+        if (!faintedUnit.IsPlayer)
+        {
+            // ++ EXP
+            int expYield = enemyUnit.Pokemon.Base.ExpYield;
+            int level = enemyUnit.Pokemon.Level;
+
+            float trainerBonus = (isTrainerBattle) ? 1.5f : 1f;
+
+            int expGain = Mathf.FloorToInt((expYield * level * trainerBonus) / 7);
+            playerUnit.Pokemon.EXP += expGain;
+            yield return dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} gained {expGain} exp!");
+            yield return playerUnit.Hud.SetExpSmooth();
+            // check Level Up
+        }
+        
+        CheckForBattleFainted(faintedUnit);
+    }
     
     IEnumerator AboutToUse(Pokemon pokemon)
     {
@@ -269,12 +294,7 @@ public class BattleSystem : MonoBehaviour
             // checkTarget
             if (targetUnit.Pokemon.HP <= 0)
             {
-                yield return dialogBox.TypeDialog($"{targetUnit.Pokemon.Base.Name} is Fainted!");
-
-                targetUnit.PlayFaintAnimation();
-                yield return new WaitForSeconds(2f);
-
-                CheckForBattleFainted(targetUnit);
+                yield return HandlePokemonFainted(targetUnit);
             }
         }
         else
@@ -388,12 +408,7 @@ public class BattleSystem : MonoBehaviour
         //checkSource
         if (sourceUnit.Pokemon.HP <= 0)
         {
-            yield return dialogBox.TypeDialog($"{sourceUnit.Pokemon.Base.Name} is Fainted!");
-            
-            sourceUnit.PlayFaintAnimation();
-            yield return new WaitForSeconds(2f);
-            
-            CheckForBattleFainted(sourceUnit);
+            yield return HandlePokemonFainted(sourceUnit);
             yield return new WaitUntil(() => State == BattleState.RunningTurn);
         }
     }

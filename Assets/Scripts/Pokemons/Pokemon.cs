@@ -24,6 +24,8 @@ public class Pokemon
 
     public int Level { get { return level; } }
 
+    //https://bulbapedia.bulbagarden.net/wiki/Experience
+    public int EXP { get; set; }
     public int HP { get; set; }
     public List<Move> Moves { get; set; }
     public Move CurrentMove { get; set; }
@@ -56,6 +58,7 @@ public class Pokemon
         CalculationStats();
         
         HP = MaxHp;
+        EXP = _base.GetExpForlevel(Level);
         
         ResetStatBoost();
 

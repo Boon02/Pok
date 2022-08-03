@@ -35,7 +35,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -549, y: -42}
+  m_AnchoredPosition: {x: -549, y: -23}
   m_SizeDelta: {x: 148.82, y: 87.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6337832749665462991
@@ -355,7 +355,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 59.3962, y: -44.7}
+  m_AnchoredPosition: {x: 59.39621, y: -25.699997}
   m_SizeDelta: {x: -199.7925, y: 45}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8772717826342439485
@@ -444,8 +444,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -106, y: 43.65}
-  m_SizeDelta: {x: 148.82, y: 87.3}
+  m_AnchoredPosition: {x: -140, y: 43.65}
+  m_SizeDelta: {x: 200, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8772717826368275612
 CanvasRenderer:
@@ -585,12 +585,14 @@ MonoBehaviour:
   nameText: {fileID: 8772717826327749876}
   levelText: {fileID: 8772717826368275615}
   hpBar: {fileID: 8772717826342439474}
+  expBar: {fileID: 0}
   statusText: {fileID: 6294177429960747268}
   psnColor: {r: 0.76929563, g: 0.19339623, b: 0.7735849, a: 1}
   brnColor: {r: 0.6886792, g: 0.1375856, b: 0.126691, a: 1}
   slpColor: {r: 0.13550194, g: 0.8207547, b: 0.7322225, a: 1}
   parColor: {r: 0.28956708, g: 0.8207547, b: 0.22841759, a: 1}
   frzColor: {r: 0.16470586, g: 0.74509805, b: 0.73418045, a: 1}
+  confusionColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &8772717827763598503
 GameObject:
   m_ObjectHideFlags: 0

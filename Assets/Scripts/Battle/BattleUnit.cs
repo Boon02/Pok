@@ -19,7 +19,7 @@ public class BattleUnit : MonoBehaviour
     {
         get { return hud; }
     }
-    
+
     public Pokemon Pokemon { get; set; }
 
     private Image image;
