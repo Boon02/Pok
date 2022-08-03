@@ -117,7 +117,7 @@ public class PokemonBase : ScriptableObject
     public int CatchRate => catchRate; 
     public int ExpYield => expYield;
     public GrowthRate GrowthRate => growthRate;
-    public int MaxNumOfMove => maxNumOfMove;
+    public static int MaxNumOfMove => maxNumOfMove;
     
     
 }
