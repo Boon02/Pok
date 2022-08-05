@@ -288,7 +288,7 @@ public class BattleSystem : MonoBehaviour
         }
         
         // red point
-        if (State != BattleState.BattleOver)
+        if (enemyUnit.Pokemon.HP > 0)
         {
             ActionSelection();
         }
@@ -506,6 +506,7 @@ public class BattleSystem : MonoBehaviour
         yield return dialogBox.TypeDialog($"{trainer.name} send out {nextPokemon.Base.name}.");
         
         State = BattleState.RunningTurn;
+        ActionSelection();
     }
 
     public void HandleUpdate()
@@ -700,12 +701,14 @@ public class BattleSystem : MonoBehaviour
             if (aboutToUseChoice)
             {
                 // Yes option
+                dialogBox.EnableChoiceBox(false);
                 prevState = BattleState.AboutToUse;
                 OpenPartyScreen();
             }
             else
             {
                 // No Option
+                dialogBox.EnableChoiceBox(false);
                 StartCoroutine(SendNextTrainerPokemon());
             }
         }else if(Input.GetKeyDown(KeyCode.X))
@@ -713,6 +716,7 @@ public class BattleSystem : MonoBehaviour
             dialogBox.EnableChoiceBox(false);
             StartCoroutine(SendNextTrainerPokemon());
         }
+        
     }
 
     IEnumerator ThrowPokeball()

@@ -9240,7 +9240,7 @@ MonoBehaviour:
     m_Bits: 1024
   portalLayer:
     serializedVersion: 2
-    m_Bits: 2048
+    m_Bits: 0
 --- !u!1 &1065603646
 GameObject:
   m_ObjectHideFlags: 0
