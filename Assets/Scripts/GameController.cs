@@ -11,6 +11,9 @@ public class GameController : MonoBehaviour
     [SerializeField] private BattleSystem battleSystem;
     [SerializeField] private Camera worldCamera;
     
+    public SceneDetails CurrentScene { get; private set; } 
+    public SceneDetails PrevScene { get; private set; } 
+    
     public static GameController Instance { get; private set; } 
     
     private GameState state;
@@ -112,5 +115,11 @@ public class GameController : MonoBehaviour
         {
             state = stateBeforPause;
         }
+    }
+
+    public void SetCurrentScene(SceneDetails currentScene)
+    {
+        PrevScene = CurrentScene;
+        CurrentScene = currentScene;
     }
 }

@@ -6,12 +6,24 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/0 - HomeTown.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
+    path: Assets/Scenes/0 - GamePlay.unity
+    guid: 82b04b6682450d7488a387d52eb577fb
   - enabled: 1
-    path: Assets/Scenes/1 - Route1.unity
+    path: Assets/Scenes/1 - HomeTown.unity
+    guid: 70a979070d779c94db1ff4b82f07154a
+  - enabled: 1
+    path: Assets/Scenes/2 - Route1.unity
     guid: 340d1d674f3821c41b74e45a50b1fb86
   - enabled: 1
-    path: Assets/Scenes/2 - House1.unity
+    path: Assets/Scenes/3 - House1.unity
     guid: e0936b599f743a94a89d090181cdae93
+  - enabled: 1
+    path: Assets/Scenes/Town 2.unity
+    guid: 81ede5609dff40d49978761438bae61b
+  - enabled: 1
+    path: Assets/Scenes/Town 3.unity
+    guid: 4410295cd55289441acf789c03d5aa2b
+  - enabled: 1
+    path: Assets/Scenes/Town 4.unity
+    guid: 8e8e50cfd4f27d54f832a4af2d8ec246
   m_configObjects: {}
