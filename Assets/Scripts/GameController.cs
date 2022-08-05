@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum GameState{ FreeRoam, Battle, Dialog, Cutscene}
+public enum GameState{ FreeRoam, Battle, Dialog, Cutscene, Paused}
 public class GameController : MonoBehaviour
 
 {
@@ -13,7 +13,8 @@ public class GameController : MonoBehaviour
     
     public static GameController Instance { get; private set; } 
     
-    private GameState State;
+    private GameState state;
+    private GameState stateBeforPause;
     private TrainerController trainerController;
     private void Awake()
     {
@@ -29,19 +30,19 @@ public class GameController : MonoBehaviour
 
         DialogManager.Instance.OnShowDialog += () =>
         {
-            State = GameState.Dialog;
+            state = GameState.Dialog;
         };
         
         DialogManager.Instance.OnCloseDialog += () =>
         {
-            if (State == GameState.Dialog) 
-                State = GameState.FreeRoam;
+            if (state == GameState.Dialog) 
+                state = GameState.FreeRoam;
         };
     }
 
     public void StartBattle()
     {
-        State = GameState.Battle;
+        state = GameState.Battle;
         battleSystem.gameObject.SetActive(true);
         worldCamera.gameObject.SetActive(false);
 
@@ -54,7 +55,7 @@ public class GameController : MonoBehaviour
     
     public void StartTrainertBattle(TrainerController trainer)
     {
-        State = GameState.Battle;
+        state = GameState.Battle;
         battleSystem.gameObject.SetActive(true);
         worldCamera.gameObject.SetActive(false);
 
@@ -73,22 +74,22 @@ public class GameController : MonoBehaviour
             trainerController = null;
         }
         
-        State = GameState.FreeRoam;
+        state = GameState.FreeRoam;
         battleSystem.gameObject.SetActive(false);
         worldCamera.gameObject.SetActive(true);
     }
     
     private void Update()
     {
-        if(State == GameState.FreeRoam)
+        if(state == GameState.FreeRoam)
         {
             playerController.HandleUpdate();
         }
-        else if (State == GameState.Battle)
+        else if (state == GameState.Battle)
         {
             battleSystem.HandleUpdate();
         }
-        else if (State == GameState.Dialog)
+        else if (state == GameState.Dialog)
         {
             DialogManager.Instance.HanldeUpdate();
         }
@@ -96,7 +97,20 @@ public class GameController : MonoBehaviour
     
     public void OnEnterTrainersView(TrainerController trainer)
     {
-        State = GameState.Cutscene;
+        state = GameState.Cutscene;
         StartCoroutine(trainer.TriggerTrainerBattle(playerController));
+    }
+
+    public void PauseGame(bool pause)
+    {
+        if (pause)
+        {
+            stateBeforPause = state;
+            state = GameState.Paused;
+        }
+        else
+        {
+            state = stateBeforPause;
+        }
     }
 }
