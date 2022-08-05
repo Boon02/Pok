@@ -7,8 +7,6 @@ using Random = UnityEngine.Random;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private float offSetY = 0.3f;
-
     [SerializeField] private string name;
     [SerializeField] private Sprite sprite;
     
@@ -59,7 +57,7 @@ public class PlayerController : MonoBehaviour
     {
         // CheckForEncounter();
         // CheckIfInTrainersView();
-        var collider2Ds = Physics2D.OverlapCircleAll(transform.position - new Vector3(0f, offSetY), 0.2f, GameLayers.i.TriggerableLayer);
+        var collider2Ds = Physics2D.OverlapCircleAll(transform.position - new Vector3(0f, character.offSetY), 0.2f, GameLayers.i.TriggerableLayer);
 
         foreach (var collider2D in collider2Ds)
         {
@@ -74,13 +72,8 @@ public class PlayerController : MonoBehaviour
         
     }
 
-    public Sprite Sprite
-    {
-        get => sprite;
-    }
-    
-    public string Name
-    {
-        get => name;
-    }
+    public Sprite Sprite=> sprite;
+    public string Name => name;
+    public Character Character => character;
+
 }
