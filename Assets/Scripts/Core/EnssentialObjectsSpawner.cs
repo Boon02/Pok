@@ -13,7 +13,7 @@ public class EnssentialObjectsSpawner : MonoBehaviour
         var exitingObjects = FindObjectsOfType<EnssentialObjects>();
         if (exitingObjects.Length == 0)
         {
-            Instantiate(enssentialObjects, Vector3.zero, quaternion.identity);
+            Instantiate(enssentialObjects, transform.position, quaternion.identity);
         }
     }
 }

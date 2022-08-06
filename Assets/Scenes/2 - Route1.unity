@@ -133,7 +133,6 @@ GameObject:
   m_Component:
   - component: {fileID: 311045085}
   - component: {fileID: 311045084}
-  - component: {fileID: 311045083}
   m_Layer: 0
   m_Name: Grid
   m_TagString: Untagged
@@ -141,21 +140,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &311045083
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 311045082}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c5ef3214f324404e93b4119714b24cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  WildPokemons:
-  - _base: {fileID: 11400000, guid: 8be12c38953305b498f770c9d4066a78, type: 2}
-    level: 1
 --- !u!156049354 &311045084
 Grid:
   m_ObjectHideFlags: 0
@@ -8668,15 +8652,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7297906670898914373, guid: 4796127e6de270a408212bf4e9b06faf, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 8.2
       objectReference: {fileID: 0}
     - target: {fileID: 7297906670898914373, guid: 4796127e6de270a408212bf4e9b06faf, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 11.5
       objectReference: {fileID: 0}
     - target: {fileID: 7297906670898914373, guid: 4796127e6de270a408212bf4e9b06faf, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7297906670898914373, guid: 4796127e6de270a408212bf4e9b06faf, type: 3}
       propertyPath: m_LocalRotation.w
