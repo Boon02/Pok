@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 
-public class TrainerController : MonoBehaviour, Interactable
+public class TrainerController : MonoBehaviour, Interactable, ISavable
 {
     [SerializeField] private string name;
     [SerializeField] private Sprite sprite;
@@ -99,5 +99,21 @@ public class TrainerController : MonoBehaviour, Interactable
     public string Name
     {
         get => name;
+    }
+
+    // trả về giá trị cần lưu
+    public object CaptureState()
+    {
+        return battleLost;
+    }
+
+    // load giá trị và các ràng buộc
+    public void RestoreState(object state)
+    {
+        battleLost = (bool)state;
+        if (battleLost)
+        {
+            fov.gameObject.SetActive(false);
+        }
     }
 }

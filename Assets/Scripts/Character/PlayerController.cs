@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, ISavable
 {
     [SerializeField] private string name;
     [SerializeField] private Sprite sprite;
@@ -75,4 +75,15 @@ public class PlayerController : MonoBehaviour
     public string Name => name;
     public Character Character => character;
 
+    public object CaptureState()
+    {
+        float[] position = new float[] { transform.position.x, transform.position.y };
+        return position;
+    }
+
+    public void RestoreState(object state)
+    {
+        var position = (float[])state;
+        transform.position = new Vector3(position[0], position[1]);
+    }
 }

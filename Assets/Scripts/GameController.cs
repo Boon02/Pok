@@ -86,6 +86,13 @@ public class GameController : MonoBehaviour
     {
         if(state == GameState.FreeRoam)
         {
+            if (Input.GetKeyDown(KeyCode.S))
+            {
+                SavingSystem.i.Save("saveSlot_1");
+            }else if (Input.GetKeyDown(KeyCode.L))
+            {
+                SavingSystem.i.Load("saveSlot_1");
+            }
             playerController.HandleUpdate();
         }
         else if (state == GameState.Battle)
