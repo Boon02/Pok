@@ -22,6 +22,7 @@ public class GameController : MonoBehaviour
     private void Awake()
     {
         ConditionDB.Init();
+        PokemonsDB.Init();
         battleSystem.OnBattleOver += EndBattle;
         Instance = this;
     }
