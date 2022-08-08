@@ -86,16 +86,8 @@ public class Pokemon
         }
         
         Moves = new List<Move>();
-        foreach (var move in Base.LearnableMoves)
-        {
-            if (move.Level <= Level)
-            {
-                Moves.Add(new Move(move.MoveBase));
-            }
 
-            if (Moves.Count >= PokemonBase.MaxNumOfMove)
-                break;
-        }
+        Moves = saveData.moves.Select(s => new Move(s)).ToList();
         
         CalculationStats();
         CurrentMove = GetRandomMove();
@@ -112,7 +104,8 @@ public class Pokemon
             exp = EXP,
             hp = HP,
             level = level,
-            status = Status?.ID
+            status = Status?.ID,
+            moves = Moves.Select(x => x.GetSaveMove()).ToList()
         };
         return saveData;
     }
@@ -354,4 +347,5 @@ public class PokemonSaveData
     public int level;
     public int exp;
     public ConditionID? status;
+    public List<MoveSaveData> moves;
 }

@@ -1036,7 +1036,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1094319795}
   - component: {fileID: 1094319794}
-  - component: {fileID: 1094319793}
   m_Layer: 0
   m_Name: Grid
   m_TagString: Untagged
@@ -1044,21 +1043,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1094319793
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1094319792}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c5ef3214f324404e93b4119714b24cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  WildPokemons:
-  - _base: {fileID: 11400000, guid: 8be12c38953305b498f770c9d4066a78, type: 2}
-    level: 1
 --- !u!156049354 &1094319794
 Grid:
   m_ObjectHideFlags: 0
