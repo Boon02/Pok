@@ -19,7 +19,6 @@ public class MovesDB
             }
 
             moves[move.Name] = move;
-            Debug.Log(move.Name + "-" + moves[move.Name]);
         }
 
     }
