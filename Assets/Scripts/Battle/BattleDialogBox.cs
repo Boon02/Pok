@@ -2,13 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 
 public class BattleDialogBox : MonoBehaviour
 {
     [SerializeField] private int lettersPerSecond = 30;
-    [SerializeField] private Color hightlightedColor;
     
     [SerializeField] private Text dialogText;
     [SerializeField] private GameObject actionSelection;
@@ -68,7 +68,7 @@ public class BattleDialogBox : MonoBehaviour
         {
             if (i == selectedAction)
             {
-                actionTexts[i].color = hightlightedColor;
+                actionTexts[i].color = GlobalSetting.i.HighLightedColor;
             }
             else
             {
@@ -83,7 +83,7 @@ public class BattleDialogBox : MonoBehaviour
         {
             if (i == selectedMove)
             {
-                moveTexts[i].color = hightlightedColor;
+                moveTexts[i].color = GlobalSetting.i.HighLightedColor;
             }
             else
             {
@@ -124,12 +124,12 @@ public class BattleDialogBox : MonoBehaviour
     {
         if (yesSelected)
         {
-            yesText.color = hightlightedColor;
+            yesText.color = GlobalSetting.i.HighLightedColor;
             noText.color = Color.black;
         }else 
         {
             yesText.color = Color.black;
-            noText.color = hightlightedColor;
+            noText.color = GlobalSetting.i.HighLightedColor;
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum GameState{ FreeRoam, Battle, Dialog, Cutscene, Paused}
+public enum GameState{ FreeRoam, Battle, Menu, Dialog, Cutscene, Paused}
 public class GameController : MonoBehaviour
 
 {
@@ -19,6 +19,7 @@ public class GameController : MonoBehaviour
     private GameState state;
     private GameState stateBeforPause;
     private TrainerController trainerController;
+    private MenuController menuController;
     private void Awake()
     {
         ConditionDB.Init();
@@ -26,6 +27,8 @@ public class GameController : MonoBehaviour
         MovesDB.Init();
         battleSystem.OnBattleOver += EndBattle;
         Instance = this;
+
+        menuController = GetComponent<MenuController>();
     }
 
     private void Start()
@@ -42,6 +45,29 @@ public class GameController : MonoBehaviour
         {
             if (state == GameState.Dialog) 
                 state = GameState.FreeRoam;
+        };
+
+        menuController.onMenuSelected += (x) =>
+        {
+            if (x == 0)
+            {
+                Debug.LogError("TODO: Pokemon");
+            }else if (x == 1)
+            {
+                Debug.LogError("TODO: Bag");
+            }else if (x == 2)
+            {
+                SavingSystem.i.Save("saveSlot_1");
+            }else if (x == 3)
+            {
+                SavingSystem.i.Load("saveSlot_1");
+            }
+            state = GameState.FreeRoam;
+        };
+
+        menuController.onBack += () =>
+        {
+            state = GameState.FreeRoam;
         };
     }
 
@@ -88,14 +114,14 @@ public class GameController : MonoBehaviour
     {
         if(state == GameState.FreeRoam)
         {
-            if (Input.GetKeyDown(KeyCode.S))
-            {
-                SavingSystem.i.Save("saveSlot_1");
-            }else if (Input.GetKeyDown(KeyCode.L))
-            {
-                SavingSystem.i.Load("saveSlot_1");
-            }
             playerController.HandleUpdate();
+
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                menuController.OpenMenu();
+                state = GameState.Menu;
+            }
+
         }
         else if (state == GameState.Battle)
         {
@@ -104,6 +130,9 @@ public class GameController : MonoBehaviour
         else if (state == GameState.Dialog)
         {
             DialogManager.Instance.HanldeUpdate();
+        }else if (state == GameState.Menu)
+        {
+            menuController.HandleUpdate();
         }
     }
     
