@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class PartyMemberUI : MonoBehaviour
 {
-    [SerializeField] private Color hightlightedColor;
     [SerializeField] private Text nameText;
     [SerializeField] private Text levelText;
     [SerializeField] private HPBar hpBar;
@@ -24,7 +23,7 @@ public class PartyMemberUI : MonoBehaviour
     {
         if (selected)
         {
-            nameText.color = hightlightedColor;
+            nameText.color = GlobalSetting.i.HighLightedColor;
         }
         else
         {

@@ -34,13 +34,18 @@ public class MenuController : MonoBehaviour
 
     public void HandleUpdate()
     {
+        int prev = selectedItem;
         if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
             ++selectedItem;
+        }
         else if (Input.GetKeyDown(KeyCode.UpArrow))
             --selectedItem;
 
         selectedItem = Mathf.Clamp(selectedItem, 0, menuItems.Count - 1);
-        UpdateItemSelection();
+        
+        if(prev != selectedItem)
+            UpdateItemSelection();
 
         if (Input.GetKeyDown(KeyCode.Z))
         {

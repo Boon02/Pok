@@ -3,13 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum GameState{ FreeRoam, Battle, Menu, Dialog, Cutscene, Paused}
+public enum GameState{ FreeRoam, Battle, Menu, Dialog, PartyScreen, Cutscene, Paused}
 public class GameController : MonoBehaviour
 
 {
     [SerializeField] private PlayerController playerController;
     [SerializeField] private BattleSystem battleSystem;
     [SerializeField] private Camera worldCamera;
+    [SerializeField] private PartyScreen partyScreen;
     
     public SceneDetails CurrentScene { get; private set; } 
     public SceneDetails PrevScene { get; private set; } 
@@ -51,22 +52,26 @@ public class GameController : MonoBehaviour
         {
             if (x == 0)
             {
-                Debug.LogError("TODO: Pokemon");
+                partyScreen.gameObject.SetActive(true);
+                partyScreen.SetPartyData(playerController.GetComponent<PokemonParty>().Pokemons);
+                state = GameState.PartyScreen;
             }else if (x == 1)
             {
                 Debug.LogError("TODO: Bag");
             }else if (x == 2)
             {
                 SavingSystem.i.Save("saveSlot_1");
+                state = GameState.FreeRoam;
             }else if (x == 3)
             {
                 SavingSystem.i.Load("saveSlot_1");
+                state = GameState.FreeRoam;
             }
-            state = GameState.FreeRoam;
         };
 
         menuController.onBack += () =>
         {
+            partyScreen.gameObject.SetActive(false);
             state = GameState.FreeRoam;
         };
     }
@@ -130,9 +135,25 @@ public class GameController : MonoBehaviour
         else if (state == GameState.Dialog)
         {
             DialogManager.Instance.HanldeUpdate();
-        }else if (state == GameState.Menu)
+        }
+        else if (state == GameState.Menu)
         {
             menuController.HandleUpdate();
+        }
+        else if (state == GameState.PartyScreen)
+        {
+            Action onSelected = () =>
+            {
+                Debug.LogError("TODO: go to Summary Screen ");
+            };
+
+            Action onBack = () =>
+            {
+                partyScreen.gameObject.SetActive(false);
+                state = GameState.FreeRoam;
+            };
+            
+            partyScreen.HandleUpdate(onSelected, onBack);
         }
     }
     
