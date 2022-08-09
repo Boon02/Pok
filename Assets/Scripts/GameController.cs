@@ -31,13 +31,19 @@ public class GameController : MonoBehaviour
         Instance = this;
 
         menuController = GetComponent<MenuController>();
+        
+        // Lock mouse
+        // Cursor.lockState = CursorLockMode.Locked;
+        // Cursor.visible = false;
+        
     }
 
     private void Start()
     {
         battleSystem.gameObject.SetActive(false);
         worldCamera.gameObject.SetActive(true);
-
+        inventoryUI.gameObject.SetActive(false);
+        
         DialogManager.Instance.OnShowDialog += () =>
         {
             state = GameState.Dialog;

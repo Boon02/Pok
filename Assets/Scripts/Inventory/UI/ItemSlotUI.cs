@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,8 +9,16 @@ public class ItemSlotUI : MonoBehaviour
     [SerializeField] private Text name;
     [SerializeField] private Text count;
 
+    private RectTransform rectTransform;
+
+    private void Awake()
+    {
+        rectTransform = GetComponent<RectTransform>();
+    }
+
     public Text Name => name;
     public Text Count => count;
+    public float Height => rectTransform.rect.height;
 
     public void SetData(ItemSlot itemSlot)
     {
