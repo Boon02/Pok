@@ -248,7 +248,7 @@ public class Pokemon
         float d = a * move.Base.Power * (attack / defense) + 2;
         int damage = Mathf.FloorToInt(d * modifiers);
 
-        UpdateHP(damage);
+        DecreaseHP(damage);
         // if (HP <= 0)
         // {
         //     HP = 0;
@@ -297,9 +297,16 @@ public class Pokemon
     }
 
     // nhận damage trừ máu
-    public void UpdateHP(int damage)
+    public void DecreaseHP(int damage)
     {
         HP = Mathf.Clamp(HP - damage, 0, MaxHp);
+        OnHpChanged?.Invoke();
+        HpChanged = true;
+    }
+    
+    public void IncreaseHP(int amount)
+    {
+        HP = Mathf.Clamp(HP + amount, 0, MaxHp);
         OnHpChanged?.Invoke();
         HpChanged = true;
     }

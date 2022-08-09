@@ -1554,6 +1554,10 @@ PrefabInstance:
       propertyPath: slots.Array.data[19].count
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 3473424557397167865, guid: e2fa4800139faca4094bce62ef98c9c5, type: 3}
+      propertyPath: pokemons.Array.data[1].level
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 3473424557406253549, guid: e2fa4800139faca4094bce62ef98c9c5, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
