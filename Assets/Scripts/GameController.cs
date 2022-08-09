@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum GameState{ FreeRoam, Battle, Menu, Dialog, PartyScreen, Cutscene, Paused}
+public enum GameState{ FreeRoam, Battle, Menu, Dialog, PartyScreen, Bag, Cutscene, Paused}
 public class GameController : MonoBehaviour
 
 {
@@ -11,6 +11,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private BattleSystem battleSystem;
     [SerializeField] private Camera worldCamera;
     [SerializeField] private PartyScreen partyScreen;
+    [SerializeField] private InventoryUI inventoryUI;
     
     public SceneDetails CurrentScene { get; private set; } 
     public SceneDetails PrevScene { get; private set; } 
@@ -52,18 +53,24 @@ public class GameController : MonoBehaviour
         {
             if (x == 0)
             {
+                //Debug.LogError("TODO: Pokemon");
                 partyScreen.gameObject.SetActive(true);
                 partyScreen.SetPartyData(playerController.GetComponent<PokemonParty>().Pokemons);
                 state = GameState.PartyScreen;
             }else if (x == 1)
             {
-                Debug.LogError("TODO: Bag");
+                //Debug.LogError("TODO: Bag");
+                inventoryUI.gameObject.SetActive(true);
+                state = GameState.Bag;
+
             }else if (x == 2)
             {
+                //Debug.LogError("TODO: Save");
                 SavingSystem.i.Save("saveSlot_1");
                 state = GameState.FreeRoam;
             }else if (x == 3)
             {
+                //Debug.LogError("TODO: Load");
                 SavingSystem.i.Load("saveSlot_1");
                 state = GameState.FreeRoam;
             }
@@ -154,6 +161,21 @@ public class GameController : MonoBehaviour
             };
             
             partyScreen.HandleUpdate(onSelected, onBack);
+        }
+        else if (state == GameState.Bag)
+        {
+            Action onSelected = () =>
+            {
+                Debug.LogError("TODO: onSelected Bag");
+            };
+            
+            Action onBack = () =>
+            {
+                inventoryUI.gameObject.SetActive(false);
+                state = GameState.FreeRoam;
+            };
+            
+            inventoryUI.HandleUpdate(onSelected, onBack);
         }
     }
     
