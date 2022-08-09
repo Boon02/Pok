@@ -9,6 +9,8 @@ public class PokemonParty : MonoBehaviour
 {
     [SerializeField] private List<Pokemon> pokemons;
 
+    public event Action OnUpdated;
+
     public List<Pokemon> Pokemons
     {
         get
@@ -39,10 +41,16 @@ public class PokemonParty : MonoBehaviour
         if (pokemons.Count < 6)
         {
             pokemons.Add(pokemon);
+            OnUpdated?.Invoke();
         }
         else
         {
             //TODO: Add to the PC once that's implemented
         }
     }
+    
+    public static PokemonParty GetPlayerParty()
+        {
+            return FindObjectOfType<PlayerController>().GetComponent<PokemonParty>();
+        }
 }

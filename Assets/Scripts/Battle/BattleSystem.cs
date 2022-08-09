@@ -45,7 +45,7 @@ public class BattleSystem : MonoBehaviour
         trainerImage.gameObject.SetActive(false);
         dialogBox.EnableChoiceBox(false);
         moveSelectionUI.gameObject.SetActive(false);
-        
+        partyScreen.gameObject.SetActive(false);
     }
     
     public void StartBattle(PokemonParty playerParty, Pokemon wildPokemon)
@@ -135,7 +135,7 @@ public class BattleSystem : MonoBehaviour
     {
         partyScreen.CalledFrom = state;
         state = BattleState.PartyScreen;
-        partyScreen.SetPartyData(playerParty.Pokemons);
+        partyScreen.SetPartyData();
         partyScreen.gameObject.SetActive(true);
     }
 

@@ -10,19 +10,26 @@ public class PartyScreen : MonoBehaviour
 
     [SerializeField] PartyMemberUI[] memberSlots;
     private List<Pokemon> pokemons;
+    private PokemonParty party;
     private int selection = 0;
     
     public BattleState? CalledFrom { get; set; }
     public Pokemon SelectedMember => pokemons[selection];
     
+
     public void Init()
     {
         memberSlots = GetComponentsInChildren<PartyMemberUI>(true);
+        party = PokemonParty.GetPlayerParty(); 
+        SetPartyData();
+
+        party.OnUpdated += SetPartyData;
     }
 
-    public void SetPartyData(List<Pokemon> pokemons)
+    public void SetPartyData()  //List<Pokemon> pokemons)
     {
-        this.pokemons = pokemons;
+        //this.pokemons = pokemons;
+        pokemons = party.Pokemons;
         for (int i = 0; i < memberSlots.Length; i++)
         {
             if (i < pokemons.Count)
