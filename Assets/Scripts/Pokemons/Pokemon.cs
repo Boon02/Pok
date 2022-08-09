@@ -39,6 +39,7 @@ public class Pokemon
     public Queue<string> StatusChanges;
     public bool HpChanged { get; set; }
     public event Action OnStatusChanged;
+    public event Action OnHpChanged;
     
     
     public void Init()
@@ -299,6 +300,7 @@ public class Pokemon
     public void UpdateHP(int damage)
     {
         HP = Mathf.Clamp(HP - damage, 0, MaxHp);
+        OnHpChanged?.Invoke();
         HpChanged = true;
     }
     
