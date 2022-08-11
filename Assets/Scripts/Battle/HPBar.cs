@@ -5,7 +5,9 @@ using UnityEngine;
 public class HPBar : MonoBehaviour
 {
     [SerializeField] private GameObject health;
-
+    
+    public bool IsUpdating { get; private set; }
+        
     public void SetHP(float hpNormalized)
     {
         health.transform.localScale = new Vector3(hpNormalized, 1);
@@ -13,6 +15,8 @@ public class HPBar : MonoBehaviour
 
     public IEnumerator SetHPSmooth(float newHp)
     {
+        IsUpdating = true;
+        
         float curHp = health.transform.localScale.x;
         float changeHp = curHp - newHp;
 
@@ -23,5 +27,7 @@ public class HPBar : MonoBehaviour
             yield return null;
         }
         health.transform.localScale = new Vector3(newHp,1f);
+
+        IsUpdating = false;
     }
 }

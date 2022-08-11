@@ -22,10 +22,11 @@ public class InventoryUI : MonoBehaviour
     private Inventory inventory;
     private List<ItemSlotUI> slotUIList;
     private RectTransform itemListRect;
+    private Action onItemUse;
     
     int selectedItem = 0;
     private InventoryUIState state;
-    
+
     const int itemsInViewport = 10;
     
     private void Awake()
@@ -62,8 +63,10 @@ public class InventoryUI : MonoBehaviour
         UpdateItemSelection();
     }
 
-    public void HandleUpdate(Action onSelected, Action onBack)
+    public void HandleUpdate(Action onBack, Action onItemUse = null)
     {
+        this.onItemUse = onItemUse;
+        
         if (state == InventoryUIState.ItemSelection)
         {
             int prev = selectedItem;
@@ -156,6 +159,7 @@ public class InventoryUI : MonoBehaviour
         if (usedItem != null)
         {
             yield return DialogManager.Instance.ShowDialogText($"The player used {usedItem.Name}");
+            onItemUse?.Invoke();
         }
         else 
         {

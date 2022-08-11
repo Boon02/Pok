@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
-public enum BattleState{ Start, ActionSelection, MoveSelection, RunningTurn, Busy, PartyScreen, AboutToUse, MoveToForget, BattleOver }
+public enum BattleState{ Start, ActionSelection, MoveSelection, RunningTurn, Busy, Bag, PartyScreen, AboutToUse, MoveToForget, BattleOver }
 public enum BattleAction{Move, UsingItem, SwitchPokemon, Run}
 
 public class BattleSystem : MonoBehaviour
@@ -21,6 +21,7 @@ public class BattleSystem : MonoBehaviour
     [SerializeField] private Image trainerImage;
     [SerializeField] private GameObject pokeballSprite;
     [SerializeField] private MoveSelectionUI moveSelectionUI;
+    [SerializeField] private InventoryUI inventoryUI;
 
     private int currentAction = 0;
     private int currentMove = 0;
@@ -129,6 +130,13 @@ public class BattleSystem : MonoBehaviour
         state = BattleState.ActionSelection;
         StartCoroutine(dialogBox.TypeDialog("Choose an action!"));
         dialogBox.EnableActionSelection(true);
+    }
+    
+    void OpenBag()
+    {
+        state = BattleState.Bag;
+        inventoryUI.gameObject.SetActive(true);
+        dialogBox.gameObject.SetActive(false);
     }
 
     void OpenPartyScreen()
@@ -272,7 +280,7 @@ public class BattleSystem : MonoBehaviour
             else if (playerAction == BattleAction.UsingItem)
             {
                 dialogBox.EnableActionSelection(false);
-                yield return ThrowPokeball();
+                //yield return ThrowPokeball();
             }else if (playerAction == BattleAction.Run)
             {
                 dialogBox.EnableActionSelection(false);
@@ -302,10 +310,11 @@ public class BattleSystem : MonoBehaviour
         if (!canMove)
         {
             yield return ShowStatusChanges(sourceUnit.Pokemon);
-            yield return sourceUnit.Hud.UpdateHp();
+            yield return sourceUnit.Hud.WaitForUpdateHp();
             yield break;
         }
-
+        
+        dialogBox.gameObject.SetActive(true);
         yield return dialogBox.TypeDialog($"{sourceUnit.Pokemon.Base.Name} used {move.Base.Name}!");
         if (CheckIfMoveHits(move, sourceUnit.Pokemon, targetUnit.Pokemon))
         {
@@ -322,7 +331,7 @@ public class BattleSystem : MonoBehaviour
             {
                 var damageDetails = targetUnit.Pokemon.TakeDamage(move, sourceUnit.Pokemon);
 
-                yield return targetUnit.Hud.UpdateHp();
+                yield return targetUnit.Hud.WaitForUpdateHp();
                 yield return ShowDamageDetails(damageDetails);
             }
             
@@ -441,7 +450,7 @@ public class BattleSystem : MonoBehaviour
         
         sourceUnit.Pokemon.OnAfterTurn();
         yield return ShowStatusChanges(sourceUnit.Pokemon);
-        yield return sourceUnit.Hud.UpdateHp();
+        yield return sourceUnit.Hud.WaitForUpdateHp();
         
         //checkSource
         if (sourceUnit.Pokemon.HP <= 0)
@@ -550,6 +559,24 @@ public class BattleSystem : MonoBehaviour
 
             moveSelectionUI.HandleMoveSelection(onSelectedMove);
         }
+        else if (state == BattleState.Bag)
+        {
+            Action onBack = () =>
+            {
+                inventoryUI.gameObject.SetActive(false);
+                state = BattleState.ActionSelection;
+                dialogBox.gameObject.SetActive(true);
+            };
+            
+            Action onItemUse = () =>
+            {
+                state = BattleState.Busy;
+                inventoryUI.gameObject.SetActive(false);
+                StartCoroutine(RunTurns(BattleAction.UsingItem));
+            };
+
+            inventoryUI.HandleUpdate(onBack, onItemUse);
+        }
     }
 
     private void HandleActionSelection()
@@ -577,7 +604,8 @@ public class BattleSystem : MonoBehaviour
             else if(currentAction == 1)
             {
                 //Bag
-                StartCoroutine(RunTurns(BattleAction.UsingItem));
+                //StartCoroutine(RunTurns(BattleAction.UsingItem));
+                OpenBag();
             }
             else if(currentAction == 2)
             {
