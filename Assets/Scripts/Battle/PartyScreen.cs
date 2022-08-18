@@ -50,7 +50,6 @@ public class PartyScreen : MonoBehaviour
     public void HandleUpdate(Action onSelected, Action onBack)
     {
         int prevSelection = selection;
-        
         if (Input.GetKeyDown(KeyCode.DownArrow))
             selection += 2;
         else if(Input.GetKeyDown(KeyCode.UpArrow))

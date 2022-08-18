@@ -17,17 +17,86 @@ public class RecoveryItem : ItemBase
     [SerializeField] private bool recoverAllStatus;
     
     [Header("REVIVE")]
-    [SerializeField] private bool revine;   // hồi sinh
-    [SerializeField] private bool maxRevine;   // max hồi sinh
+    [SerializeField] private bool revive;   // hồi sinh
+    [SerializeField] private bool maxRevive;   // max hồi sinh
 
     public override bool Use(Pokemon pokemon)
     {
-        if (hpAmount > 0)
+        // Revive
+        if (revive || maxRevive)
+        {
+            if (pokemon.HP > 0)
+            {
+                return false;
+            }
+
+            if (revive)
+            {
+                pokemon.IncreaseHP(pokemon.MaxHp / 2);
+            }
+            else if (revive)
+            {
+                pokemon.IncreaseHP(pokemon.MaxHp);
+            }
+            
+            pokemon.CureStatus();
+
+            return true;
+        }
+        
+        // Don't use item when pokemon fainted
+        if (pokemon.HP <= 0)
+        {
+            return false;   
+        }
+        
+        // Restore HP
+        if (restoreMaxHP || hpAmount > 0)
         {
             if (pokemon.HP == pokemon.MaxHp)
                 return false;
-            
-            pokemon.IncreaseHP(hpAmount);
+            if(restoreMaxHP)
+                pokemon.IncreaseHP(pokemon.MaxHp);
+            else
+                pokemon.IncreaseHP(hpAmount);
+        }
+        
+        // Recover Status
+        if (recoverAllStatus || status != ConditionID.none)
+        {
+            if (pokemon.Status == null && pokemon.VolatileStatus != null)
+            {
+                return false;
+            }
+
+            if (recoverAllStatus)
+            {
+                pokemon.CureStatus();
+                pokemon.CureVolatileStatus();
+            }
+            else
+            {
+                if (pokemon.Status.ID == status)
+                {
+                    pokemon.CureStatus();
+                }else if (pokemon.VolatileStatus.ID == status)
+                {
+                    pokemon.CureVolatileStatus();
+                }
+            }
+        }
+
+        // Restore PP
+        if (restoreMaxPP)
+        {
+            pokemon.Moves.ForEach(m => m.IncreasePP(m.Base.Pp));
+        }
+        else
+        {
+            if (ppAmount > 0)
+            {
+                pokemon.Moves.ForEach(m => m.IncreasePP(ppAmount));
+            }
         }
         
         return true;

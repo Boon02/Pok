@@ -143,6 +143,8 @@ public class BattleSystem : MonoBehaviour
     {
         partyScreen.CalledFrom = state;
         state = BattleState.PartyScreen;
+        
+        dialogBox.gameObject.SetActive(false);
         partyScreen.SetPartyData();
         partyScreen.gameObject.SetActive(true);
     }
@@ -295,7 +297,7 @@ public class BattleSystem : MonoBehaviour
         }
         
         // red point
-        if (enemyUnit.Pokemon.HP > 0)
+        if (state != BattleState.BattleOver)
         {
             ActionSelection();
         }
@@ -514,6 +516,7 @@ public class BattleSystem : MonoBehaviour
 
     public void HandleUpdate()
     {
+        Debug.LogError(state);
         if (state == BattleState.ActionSelection)
         {
             HandleActionSelection();
@@ -669,6 +672,7 @@ public class BattleSystem : MonoBehaviour
             }
             
             partyScreen.gameObject.SetActive(false);
+            dialogBox.gameObject.SetActive(true);
             if (partyScreen.CalledFrom == BattleState.ActionSelection)
             {
                 StartCoroutine(RunTurns(BattleAction.SwitchPokemon));
@@ -692,6 +696,7 @@ public class BattleSystem : MonoBehaviour
             }
             
             partyScreen.gameObject.SetActive(false);
+            dialogBox.gameObject.SetActive(true);
 
             if (partyScreen.CalledFrom == BattleState.AboutToUse)
             {

@@ -128,6 +128,8 @@ public class InventoryUI : MonoBehaviour
             }
         }
 
+        selectedItem = Mathf.Clamp(selectedItem, 0, inventory.Slots.Count - 1);
+        
         var slot = inventory.Slots[selectedItem].Item;
         itemIcon.sprite = slot.Icon;
         itemDescription.text = slot.Description;
