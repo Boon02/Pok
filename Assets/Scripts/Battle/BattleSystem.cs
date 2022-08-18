@@ -47,6 +47,7 @@ public class BattleSystem : MonoBehaviour
         dialogBox.EnableChoiceBox(false);
         moveSelectionUI.gameObject.SetActive(false);
         partyScreen.gameObject.SetActive(false);
+        inventoryUI.gameObject.SetActive(false);
     }
     
     public void StartBattle(PokemonParty playerParty, Pokemon wildPokemon)
@@ -516,7 +517,6 @@ public class BattleSystem : MonoBehaviour
 
     public void HandleUpdate()
     {
-        Debug.LogError(state);
         if (state == BattleState.ActionSelection)
         {
             HandleActionSelection();
