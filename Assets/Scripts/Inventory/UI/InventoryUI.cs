@@ -25,7 +25,7 @@ public class InventoryUI : MonoBehaviour
     private Inventory inventory;
     private List<ItemSlotUI> slotUIList;
     private RectTransform itemListRect;
-    private Action onItemUse;
+    private Action<ItemBase> onItemUse;
     
     int selectedItem = 0;
     int selectedCategory = 0;
@@ -68,7 +68,7 @@ public class InventoryUI : MonoBehaviour
         UpdateItemSelection();
     }
 
-    public void HandleUpdate(Action onBack, Action onItemUse = null)
+    public void HandleUpdate(Action onBack, Action<ItemBase> onItemUse = null)
     {
         this.onItemUse = onItemUse;
         
@@ -109,7 +109,7 @@ public class InventoryUI : MonoBehaviour
             
             if (Input.GetKeyDown(KeyCode.Z))
             {
-                OpenPartyScreen();
+                ItemSelected();
             }
             else if (Input.GetKeyDown(KeyCode.X))
             {
@@ -185,13 +185,14 @@ public class InventoryUI : MonoBehaviour
     private IEnumerator UseItem()
     {
         state = InventoryUIState.Busy;
-        
+
         var usedItem = inventory.UseItem(selectedItem, partyScreen.SelectedMember, selectedCategory);
 
         if (usedItem != null)
         {
-            yield return DialogManager.Instance.ShowDialogText($"The player used {usedItem.Name}");
-            onItemUse?.Invoke();
+            if (!(usedItem is PokeballItem))
+                yield return DialogManager.Instance.ShowDialogText($"The player used {usedItem.Name}"); 
+            onItemUse?.Invoke(usedItem);
         }
         else 
         {
@@ -221,5 +222,18 @@ public class InventoryUI : MonoBehaviour
     {
         state = InventoryUIState.ItemSelection;
         partyScreen.gameObject.SetActive(false);
+    }
+
+    private void ItemSelected()
+    {
+        if (selectedCategory == (int)ItemCategory.Pokeball)
+        {
+            StartCoroutine(UseItem());
+        }
+        else
+        {
+            OpenPartyScreen();
+        }
+        
     }
 }

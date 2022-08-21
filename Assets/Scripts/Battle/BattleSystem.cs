@@ -573,11 +573,9 @@ public class BattleSystem : MonoBehaviour
                 dialogBox.gameObject.SetActive(true);
             };
             
-            Action onItemUse = () =>
+            Action<ItemBase> onItemUse = (ItemBase usedItem) =>
             {
-                state = BattleState.Busy;
-                inventoryUI.gameObject.SetActive(false);
-                StartCoroutine(RunTurns(BattleAction.UsingItem));
+                StartCoroutine(OnItemUsed(usedItem));
             };
 
             inventoryUI.HandleUpdate(onBack, onItemUse);
@@ -743,15 +741,23 @@ public class BattleSystem : MonoBehaviour
         
     }
 
-    void voidThrowPokeball()
-    {
-        StartCoroutine(ThrowPokeball());
-    }
-
-    IEnumerator ThrowPokeball()
+    IEnumerator OnItemUsed(ItemBase usedItem)
     {
         state = BattleState.Busy;
+        inventoryUI.gameObject.SetActive(false);
 
+        if (usedItem is PokeballItem)
+        {
+            yield return ThrowPokeball((PokeballItem)usedItem);
+        }
+                
+        StartCoroutine(RunTurns(BattleAction.UsingItem));
+    }
+
+    IEnumerator ThrowPokeball(PokeballItem pokeballItem)
+    {
+        state = BattleState.Busy;
+        dialogBox.gameObject.SetActive(true);
         if (isTrainerBattle)
         {
             yield return dialogBox.TypeDialog($"You can't steal the trainers pokemon");
@@ -759,10 +765,12 @@ public class BattleSystem : MonoBehaviour
             yield break;
         }
         
-        yield return dialogBox.TypeDialog($"{player.Name} using POKEBALL.");
+        yield return dialogBox.TypeDialog($"{player.Name} using {pokeballItem.Name.ToUpper()}.");
         var pokeballObj = Instantiate(pokeballSprite, playerUnit.transform.position - new Vector3(6f, 0f), Quaternion.identity);
         var pokeball = pokeballObj.GetComponent<SpriteRenderer>();
 
+        pokeball.sprite = pokeballItem.Icon;
+        
         // Animation
         // - 1: ném pokeball lên trên đầu của pokemon
         yield return pokeball.transform.DOJump
@@ -780,7 +788,7 @@ public class BattleSystem : MonoBehaviour
         yield return pokeball.transform.DOMoveY(enemyUnit.transform.position.y - 1.3f, 0.5f).WaitForCompletion();
 
         // - 4: pokeball rung lắc
-        int shakeCount = TryToCatchPokemon(enemyUnit.Pokemon);
+        int shakeCount = TryToCatchPokemon(enemyUnit.Pokemon, pokeballItem);
         
         for (int i = 0; i < Mathf.Min(shakeCount, 3); i++)
         {
@@ -819,9 +827,9 @@ public class BattleSystem : MonoBehaviour
     }
     
     // 2 for sleep and freeze, 1.5f for paralyze, poison, or burn and 1 otherwise 
-    int TryToCatchPokemon(Pokemon pokemon)
+    int TryToCatchPokemon(Pokemon pokemon, PokeballItem pokeballItem)
     {
-        float a = (3 * pokemon.MaxHp - 2 * pokemon.HP) * pokemon.Base.CatchRate * ConditionDB.GetStatusBonus(pokemon.Status) /
+        float a = (3 * pokemon.MaxHp - 2 * pokemon.HP) * pokemon.Base.CatchRate * pokeballItem.CatchRateModfier * ConditionDB.GetStatusBonus(pokemon.Status) /
                   (3 * pokemon.MaxHp);
         if (a >= 255)
             return 4;

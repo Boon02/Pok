@@ -27,6 +27,7 @@ public class GameController : MonoBehaviour
         ConditionDB.Init();
         PokemonsDB.Init();
         MovesDB.Init();
+        
         battleSystem.OnBattleOver += EndBattle;
         Instance = this;
 
@@ -40,6 +41,7 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
+        partyScreen.Init();
         battleSystem.gameObject.SetActive(false);
         worldCamera.gameObject.SetActive(true);
         inventoryUI.gameObject.SetActive(false);
@@ -180,7 +182,7 @@ public class GameController : MonoBehaviour
                 state = GameState.FreeRoam;
             };
             
-            inventoryUI.HandleUpdate(onSelected, onBack);
+            inventoryUI.HandleUpdate(onBack);
         }
     }
     
@@ -208,4 +210,6 @@ public class GameController : MonoBehaviour
         PrevScene = CurrentScene;
         CurrentScene = currentScene;
     }
+
+    public GameState State => state;
 }
