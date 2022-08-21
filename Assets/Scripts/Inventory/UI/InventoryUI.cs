@@ -2,11 +2,12 @@ using System;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-public enum InventoryUIState {ItemSelection, PartySelection, Busy}
+public enum InventoryUIState {ItemSelection, PartySelection, MoveToForget, Busy}
 
 public class InventoryUI : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class InventoryUI : MonoBehaviour
     [SerializeField] private Image downArrow;
     
     [SerializeField] private PartyScreen partyScreen;
+    [SerializeField] private MoveSelectionUI moveSelectionUI;
     
     private Inventory inventory;
     private List<ItemSlotUI> slotUIList;
@@ -29,6 +31,8 @@ public class InventoryUI : MonoBehaviour
     
     int selectedItem = 0;
     int selectedCategory = 0;
+    
+    private MoveBase moveToLearn;
     
     private InventoryUIState state;
 
@@ -133,6 +137,15 @@ public class InventoryUI : MonoBehaviour
             // handle party selection
             partyScreen.HandleUpdate(onSelectedPartyScreem, onBackPartyScreem);
         }
+        else if (state == InventoryUIState.MoveToForget)
+        {
+            Action<int> onSelected = (int moveIndex) =>
+            {
+                StartCoroutine(OnMoveToForgetSelected(moveIndex));
+            };
+            
+            moveSelectionUI.HandleMoveSelection(onSelected);
+        }
         
         
     }
@@ -186,11 +199,13 @@ public class InventoryUI : MonoBehaviour
     {
         state = InventoryUIState.Busy;
 
+        yield return HandleTmItems();
+
         var usedItem = inventory.UseItem(selectedItem, partyScreen.SelectedMember, selectedCategory);
 
         if (usedItem != null)
         {
-            if (!(usedItem is PokeballItem))
+            if (usedItem is RecoveryItem)
                 yield return DialogManager.Instance.ShowDialogText($"The player used {usedItem.Name}"); 
             onItemUse?.Invoke(usedItem);
         }
@@ -200,6 +215,38 @@ public class InventoryUI : MonoBehaviour
         }
         
         ClosePartyScreen();
+    }
+    
+    IEnumerator HandleTmItems()
+    {
+        var tmItem = inventory.GetItem(selectedItem, selectedCategory) as TmItem;
+        if (tmItem == null)
+            yield break;
+
+        var pokemon = partyScreen.SelectedMember;
+        if (pokemon.Moves.Count < PokemonBase.MaxNumOfMove)
+        {
+            pokemon.LearnToMove(tmItem.Move);
+            yield return DialogManager.Instance.ShowDialogText($"{pokemon.Base.Name} learned {tmItem.Move.Name}");
+        }
+        else
+        {
+            yield return DialogManager.Instance.TypeDialog($"{pokemon.Base.Name} trying to learn {tmItem.Move.Name}");
+            yield return DialogManager.Instance.TypeDialog($"But it can't learn more than {PokemonBase.MaxNumOfMove} moves");
+            yield return ChooseMoveForget(pokemon, tmItem.Move);
+            yield return new WaitUntil(() => state != InventoryUIState.MoveToForget);
+        }
+    }
+    
+    IEnumerator ChooseMoveForget(Pokemon pokemon, MoveBase newMove)
+    {
+        state = InventoryUIState.Busy;
+        yield return DialogManager.Instance.ShowDialogText("Choose the move want forget!", true, false);
+        moveSelectionUI.gameObject.SetActive(true);
+        moveSelectionUI.SetMoveData(pokemon.Moves.Select(x=>x.Base).ToList(), newMove);
+        moveToLearn = newMove;
+        
+        state = InventoryUIState.MoveToForget;
     }
 
     void ResetSelection()
@@ -235,5 +282,31 @@ public class InventoryUI : MonoBehaviour
             OpenPartyScreen();
         }
         
+    }
+
+    IEnumerator OnMoveToForgetSelected(int moveIndex)
+    {
+        var pokemon = partyScreen.SelectedMember;
+        
+        DialogManager.Instance.CloseDialog();
+        moveSelectionUI.gameObject.SetActive(false);
+
+        if (moveIndex == PokemonBase.MaxNumOfMove)
+        {
+            // don't learn the new move
+            yield return DialogManager.Instance.ShowDialogText($"{pokemon.Base.Name} didn't learn {moveToLearn.Name}.");
+
+        }
+        else
+        {
+            // forget the move selected
+            var selectedMove = pokemon.Moves[moveIndex];
+            yield return DialogManager.Instance.ShowDialogText($"{pokemon.Base.Name} forgot {selectedMove.Base.Name} and learn {moveToLearn.Name}.");
+            pokemon.Moves[moveIndex] = new Move(moveToLearn);
+
+        }
+
+        moveToLearn = null;
+        state = InventoryUIState.ItemSelection;
     }
 }

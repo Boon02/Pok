@@ -210,7 +210,7 @@ public class BattleSystem : MonoBehaviour
                 {
                     if (playerUnit.Pokemon.Moves.Count < 4)
                     {
-                        playerUnit.Pokemon.LearnToMove(newMove);
+                        playerUnit.Pokemon.LearnToMove(newMove.MoveBase);
                         yield return dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} learned {newMove.MoveBase.Name}");
                         dialogBox.SetMoveNames(playerUnit.Pokemon.Moves);
                     }

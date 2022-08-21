@@ -380,7 +380,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_12
+      name: TMs_01
       rect:
         serializedVersion: 2
         x: 247
@@ -401,7 +401,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_13
+      name: TMs_02
       rect:
         serializedVersion: 2
         x: 263
@@ -422,7 +422,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_14
+      name: TMs_03
       rect:
         serializedVersion: 2
         x: 279
@@ -443,7 +443,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_15
+      name: TMs_04
       rect:
         serializedVersion: 2
         x: 291
@@ -464,7 +464,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_16
+      name: TMs_05
       rect:
         serializedVersion: 2
         x: 305
@@ -2679,7 +2679,6 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      objects_4: -1135994491
       objects_118: -1253417668
       objects_98: -265340300
       objects_84: -71009912
@@ -2692,10 +2691,13 @@ TextureImporter:
       objects_83: -1350594220
       objects_116: -420524710
       objects_92: 1604986775
+      TMs_01: 921479165
       objects_41: -143770836
       objects_109: -2145608534
+      objects_128: 355926088
       objects_3: -1371801086
       objects_119: -1794300249
+      TMs_04: 380121568
       objects_18: 588515208
       objects_2: 1121103079
       objects_58: -2105048156
@@ -2714,7 +2716,6 @@ TextureImporter:
       objects_5: -1094687390
       objects_137: -509337338
       objects_82: 563495781
-      objects_12: 921479165
       objects_65: 2069724235
       objects_1: 552778761
       objects_35: 79199514
@@ -2735,14 +2736,16 @@ TextureImporter:
       objects_21: 1778224171
       objects_73: 243071566
       objects_95: -327989132
+      TMs_03: 1375032945
       objects_48: -1549674642
       objects_28: -548116618
       objects_70: 1016604381
       objects_106: -1951684334
+      TMs_02: -1449984219
       objects_131: 1549425377
+      objects_107: -245131903
       objects_87: -1751781132
       objects_104: 75626461
-      objects_107: -245131903
       objects_7: -218919724
       objects_22: -2024980555
       objects_47: -21731830
@@ -2758,22 +2761,19 @@ TextureImporter:
       objects_63: -163500000
       objects_74: -1781191909
       objects_105: -1880513601
-      objects_16: -438657114
       objects_52: 69977979
       objects_66: -873541587
-      objects_15: 380121568
       objects_31: -1253984721
       objects_136: 831480476
       objects_90: 952708820
       objects_120: -2137880823
       objects_110: -1239248264
       objects_56: -1645532142
-      objects_13: -1449984219
+      objects_67: -1712456888
       objects_33: -441170305
       objects_19: 736580494
       objects_29: 1076753154
       objects_126: 612028357
-      objects_67: -1712456888
       boxmess_0: 1594416991
       objects_0: 454285193
       objects_46: 875895159
@@ -2799,14 +2799,14 @@ TextureImporter:
       objects_64: 526511805
       objects_8: 472472171
       objects_10: -1669461033
-      objects_14: 1375032945
       objects_86: -236686592
+      objects_123: -250591435
       objects_75: 704501737
       objects_77: 1443835779
       objects_54: 553315822
       objects_133: -707497721
-      objects_123: -250591435
       objects_138: -931840339
+      TMs_05: -438657114
       objects_103: -788360784
       objects_85: 480921966
       objects_60: -1953281945
@@ -2817,7 +2817,7 @@ TextureImporter:
       boxmess_2: 222520020
       objects_61: 1051356826
       objects_127: -1845576318
-      objects_128: 355926088
+      objects_4: -1135994491
       objects_20: 1360306415
   spritePackingTag: 
   pSDRemoveMatte: 0

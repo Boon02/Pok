@@ -28,7 +28,7 @@ public class DialogManager : MonoBehaviour
         dialogBox.SetActive(false);
     }
 
-    public IEnumerator ShowDialogText(string dialog, bool waitForInput = true)
+    public IEnumerator ShowDialogText(string dialog, bool waitForInput = true, bool autoClose = true)
     {
         IsShowing = true;
         dialogBox.SetActive(true);
@@ -39,6 +39,16 @@ public class DialogManager : MonoBehaviour
         {
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Z));
         }
+
+        if (autoClose)
+        {
+            CloseDialog();
+        }
+        
+    }
+
+    public void CloseDialog()
+    {
         dialogBox.SetActive(false);
         IsShowing = false;
     }
@@ -78,6 +88,7 @@ public class DialogManager : MonoBehaviour
     
     public IEnumerator TypeDialog(string dialog)
     {
+        dialogBox.SetActive(true);
         isTyping = true;
         dialogText.text = "";
         foreach (var letter in dialog.ToCharArray())
