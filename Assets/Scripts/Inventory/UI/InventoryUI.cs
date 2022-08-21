@@ -141,6 +141,7 @@ public class InventoryUI : MonoBehaviour
     {
         var slots = inventory.GetSlotsByCategory(selectedCategory);
         
+        selectedItem = Mathf.Clamp(selectedItem, 0, slots.Count - 1);
         for (int i = 0; i < slotUIList.Count; i++)
         {
             if (selectedItem == i)
@@ -154,8 +155,6 @@ public class InventoryUI : MonoBehaviour
                 slotUIList[i].Count.color = Color.black;
             }
         }
-
-        selectedItem = Mathf.Clamp(selectedItem, 0, slots.Count - 1);
 
         if (slots.Count > 0)
         {
@@ -187,7 +186,7 @@ public class InventoryUI : MonoBehaviour
     {
         state = InventoryUIState.Busy;
         
-        var usedItem = inventory.UseItem(selectedItem, partyScreen.SelectedMember);
+        var usedItem = inventory.UseItem(selectedItem, partyScreen.SelectedMember, selectedCategory);
 
         if (usedItem != null)
         {

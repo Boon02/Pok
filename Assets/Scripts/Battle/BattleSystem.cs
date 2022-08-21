@@ -154,6 +154,8 @@ public class BattleSystem : MonoBehaviour
     {
         state = BattleState.BattleOver;
         playerParty.Pokemons.ForEach(p => p.BattleOver());
+        playerUnit.Hud.ClearData();
+        enemyUnit.Hud.ClearData();
         OnBattleOver(won);
     }
     
@@ -739,6 +741,11 @@ public class BattleSystem : MonoBehaviour
             StartCoroutine(SendNextTrainerPokemon());
         }
         
+    }
+
+    void voidThrowPokeball()
+    {
+        StartCoroutine(ThrowPokeball());
     }
 
     IEnumerator ThrowPokeball()

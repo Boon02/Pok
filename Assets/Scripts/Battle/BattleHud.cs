@@ -115,5 +115,13 @@ public class BattleHud : MonoBehaviour
     {
         levelText.text = "Lvl: " + _pokemon.Level;
     }
+    
+    public void ClearData(){
+        if (_pokemon != null)
+        {
+            _pokemon.OnStatusChanged -= SetStatusText;
+            _pokemon.OnHpChanged -= UpdateHp;
+        }
+    }
 
 }
