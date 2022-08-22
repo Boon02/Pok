@@ -33,6 +33,7 @@ public class PokemonBase : ScriptableObject
     [SerializeField] private GrowthRate growthRate;
     
     [SerializeField] private List<LearnableMove> learnableMoves;
+    [SerializeField] private List<MoveBase> learnableByItems;
     
     [SerializeField] private static int maxNumOfMove { get; set; } = 4;
 
@@ -49,71 +50,20 @@ public class PokemonBase : ScriptableObject
         return -1;
     }
     
-    public string Name
-    {
-        get { return name; }
-    }
-    
-    public string Description
-    {
-        get { return description; }
-    }
-    
-    public Sprite FontSprite
-    {
-        get { return fontSprite; }
-    }
-    
-    public Sprite BackSprite
-    {
-        get { return backSprite; }
-    }
-    
-    public PokemonType Type1
-    {
-        get { return type1; }
-    }
-    
-    public PokemonType Type2
-    {
-        get { return type2; }
-    }
-    
-    public int MaxHp
-    {
-        get { return maxHp; }
-    }
-    
-    public int Attack
-    {
-        get { return attack; }
-    }
-    
-    public int Defense
-    {
-        get { return defense; }
-    }
-    
-    public int SpAttack
-    {
-        get { return spAttack; }
-    }
-    
-    public int SpDefense
-    {
-        get { return spDefense; }
-    }
-    
-    public int Speed
-    {
-        get { return speed; }
-    }
-    
-    public List<LearnableMove> LearnableMoves
-    {
-        get { return learnableMoves; }
-    }
-    
+    public string Name => name;
+    public string Description => description;
+    public Sprite FontSprite => fontSprite;
+    public Sprite BackSprite => backSprite;
+    public PokemonType Type1 => type1;
+    public PokemonType Type2 => type2;
+    public int MaxHp => maxHp;
+    public int Attack => attack;
+    public int Defense => defense;
+    public int SpAttack => spAttack;
+    public int SpDefense => spDefense;
+    public int Speed => speed;
+    public List<LearnableMove> LearnableMoves => learnableMoves;
+    public List<MoveBase> LearnableByItems => learnableByItems;
     public int CatchRate => catchRate; 
     public int ExpYield => expYield;
     public GrowthRate GrowthRate => growthRate;

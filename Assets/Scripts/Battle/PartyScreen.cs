@@ -89,6 +89,23 @@ public class PartyScreen : MonoBehaviour
             }
         }
     }
+    
+    public void ShowIfTmIsUsable(TmItem tmItem)
+    {
+        for (int i = 0; i < pokemons.Count; i++)
+        {
+            string message = (tmItem.CanBeTaught(pokemons[i]) ? "Able" : "Not Able");
+            memberSlots[i].SetMessage(message);
+        }
+    }
+    
+    public void ClearMemberSlotsMessage()
+    {
+        for (int i = 0; i < pokemons.Count; i++)
+        {
+            memberSlots[i].SetMessage("");
+        }
+    }
 
     public void SetMessage(string message)
     {
