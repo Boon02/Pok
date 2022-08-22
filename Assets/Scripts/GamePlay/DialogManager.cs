@@ -12,11 +12,7 @@ public class DialogManager : MonoBehaviour
 
     public event Action OnShowDialog;
     public event Action OnCloseDialog;
-    public event Action OnDialogFinish; 
-
-    private int currentLine = 0;
-    private Dialog dialog;
-    private bool isTyping = false;
+    
 
     public bool IsShowing { get; private set; }
 
@@ -53,43 +49,34 @@ public class DialogManager : MonoBehaviour
         IsShowing = false;
     }
 
-    public IEnumerator ShowDialog(Dialog dialog, Action OnFinish = null)
+    public IEnumerator ShowDialog(Dialog dialog)
     {
         yield return new WaitForEndOfFrame();
         
         OnShowDialog?.Invoke();
 
         IsShowing = true;
-        this.dialog = dialog;
-        OnDialogFinish = OnFinish;
         dialogBox.SetActive(true);
-        StartCoroutine(TypeDialog(dialog.Lines[0]));
+
+        foreach (var line in dialog.Lines)
+        {
+            yield return TypeDialog(line);
+            yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Z));
+        }
+        
+        dialogBox.SetActive(false);
+        IsShowing = false;
+        OnCloseDialog?.Invoke();
     }
 
     public void HanldeUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.Z) && !isTyping) 
-        {
-            ++currentLine;    
-            if (currentLine < dialog.Lines.Count)
-            {
-                StartCoroutine(TypeDialog(dialog.Lines[currentLine]));
-            }
-            else
-            {
-                currentLine = 0;
-                IsShowing = false;
-                OnCloseDialog?.Invoke();
-                OnDialogFinish?.Invoke();
-                dialogBox.SetActive(false);
-            }
-        }
+        
     }
     
     public IEnumerator TypeDialog(string dialog)
     {
         dialogBox.SetActive(true);
-        isTyping = true;
         dialogText.text = "";
         foreach (var letter in dialog.ToCharArray())
         {
@@ -98,7 +85,6 @@ public class DialogManager : MonoBehaviour
         }
         
         yield return new WaitForSeconds(1f);
-        isTyping = false;
     }
     
 }

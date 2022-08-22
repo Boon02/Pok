@@ -33,19 +33,17 @@ public class TrainerController : MonoBehaviour, Interactable, ISavable
         character.HandleUpdate();
     }
 
-    public void Interact(Transform initator)
+    public IEnumerator Interact(Transform initator)
     {
         character.LookTowards(initator.position);
         if (!battleLost)
         {
-            StartCoroutine(DialogManager.Instance.ShowDialog(dialog, () =>
-            {
-                GameController.Instance.StartTrainertBattle(this);
-            }));
+            yield return DialogManager.Instance.ShowDialog(dialog);
+            GameController.Instance.StartTrainertBattle(this);
         }
         else
         {
-            StartCoroutine(DialogManager.Instance.ShowDialog(dialogAfterBattle));
+            yield return DialogManager.Instance.ShowDialog(dialogAfterBattle);
         }
             
     }
@@ -66,10 +64,8 @@ public class TrainerController : MonoBehaviour, Interactable, ISavable
         yield return character.Move(moveVec);
 
         // Show dialog
-        StartCoroutine(DialogManager.Instance.ShowDialog(dialog, () =>
-        {
-            GameController.Instance.StartTrainertBattle(this);
-        }));
+        yield return DialogManager.Instance.ShowDialog(dialog);
+        GameController.Instance.StartTrainertBattle(this);
     }
 
     public void SetFovRotation(FacingDirection dir)

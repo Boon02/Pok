@@ -36,11 +36,11 @@ public class PlayerController : MonoBehaviour, ISavable
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            Interact();
+            StartCoroutine(Interact());
         }
     }
 
-    void Interact()
+    IEnumerator Interact()
     {
         var facingDir = new Vector3(character.Animator.MoveX, character.Animator.MoveY);
         var interacPos = transform.position + facingDir;
@@ -50,7 +50,7 @@ public class PlayerController : MonoBehaviour, ISavable
         var collider = Physics2D.OverlapCircle(interacPos, 0.2f, GameLayers.i.InteractableLayer);
         if(collider != null)
         {
-            collider.GetComponent<Interactable>()?.Interact(transform);
+            yield return collider.GetComponent<Interactable>()?.Interact(transform);
         }
     }
 

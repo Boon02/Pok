@@ -411,6 +411,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2decf10889167f84297efd160525aef5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1012478831 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5002185777200703857, guid: e2fa4800139faca4094bce62ef98c9c5, type: 3}
+  m_PrefabInstance: {fileID: 9092620844692914872}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2decf10889167f84297efd160525aef5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1046372149 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1006170699850090783, guid: 9bc63bb0e1e7f0d4693a16cef5dac973, type: 3}
@@ -1554,7 +1565,7 @@ PrefabInstance:
     - target: {fileID: 560742814635266252, guid: e2fa4800139faca4094bce62ef98c9c5, type: 3}
       propertyPath: partyScreen
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1012478831}
     - target: {fileID: 560742814635266252, guid: e2fa4800139faca4094bce62ef98c9c5, type: 3}
       propertyPath: moveSelectionUI
       value: 
@@ -2949,12 +2960,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9092620845332475449, guid: e2fa4800139faca4094bce62ef98c9c5, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9092620845332475450, guid: e2fa4800139faca4094bce62ef98c9c5, type: 3}
       propertyPath: inventoryUI
       value: 
       objectReference: {fileID: 1661005130}
+    - target: {fileID: 9092620845332475450, guid: e2fa4800139faca4094bce62ef98c9c5, type: 3}
+      propertyPath: partyScreen
+      value: 
+      objectReference: {fileID: 1012478831}
     - target: {fileID: 9092620845388979551, guid: e2fa4800139faca4094bce62ef98c9c5, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
