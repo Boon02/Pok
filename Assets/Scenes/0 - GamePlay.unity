@@ -2960,7 +2960,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9092620845332475449, guid: e2fa4800139faca4094bce62ef98c9c5, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9092620845332475450, guid: e2fa4800139faca4094bce62ef98c9c5, type: 3}
       propertyPath: inventoryUI

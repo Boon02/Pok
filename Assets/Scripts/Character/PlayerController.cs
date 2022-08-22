@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour, ISavable
         var facingDir = new Vector3(character.Animator.MoveX, character.Animator.MoveY);
         var interacPos = transform.position + facingDir;
         
-        //Debug.DrawLine(transform.position, interacPos, Color.green, 0.5f);
+        Debug.DrawLine(transform.position, interacPos, Color.green, 0.5f);
 
         var collider = Physics2D.OverlapCircle(interacPos, 0.2f, GameLayers.i.InteractableLayer);
         if(collider != null)

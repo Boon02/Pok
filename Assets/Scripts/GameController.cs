@@ -19,7 +19,7 @@ public class GameController : MonoBehaviour
     public static GameController Instance { get; private set; } 
     
     private GameState state;
-    private GameState stateBeforPause;
+    private GameState prevState;
     private TrainerController trainerController;
     private MenuController menuController;
     private void Awake()
@@ -48,13 +48,14 @@ public class GameController : MonoBehaviour
         
         DialogManager.Instance.OnShowDialog += () =>
         {
+            prevState = state;
             state = GameState.Dialog;
         };
         
         DialogManager.Instance.OnCloseDialog += () =>
         {
             if (state == GameState.Dialog) 
-                state = GameState.FreeRoam;
+                state = prevState;
         };
 
         menuController.onMenuSelected += (x) =>
@@ -196,12 +197,12 @@ public class GameController : MonoBehaviour
     {
         if (pause)
         {
-            stateBeforPause = state;
+            prevState = state;
             state = GameState.Paused;
         }
         else
         {
-            state = stateBeforPause;
+            state = prevState;
         }
     }
 

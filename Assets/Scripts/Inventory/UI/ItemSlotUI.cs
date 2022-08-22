@@ -10,11 +10,7 @@ public class ItemSlotUI : MonoBehaviour
     [SerializeField] private Text count;
 
     private RectTransform rectTransform;
-
-    private void Awake()
-    {
-        rectTransform = GetComponent<RectTransform>();
-    }
+    
 
     public Text Name => name;
     public Text Count => count;
@@ -22,6 +18,7 @@ public class ItemSlotUI : MonoBehaviour
 
     public void SetData(ItemSlot itemSlot)
     {
+        rectTransform = GetComponent<RectTransform>();
         name.text = itemSlot.Item.Name;
         count.text = $"X {itemSlot.Count}";
     }
