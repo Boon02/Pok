@@ -7106,6 +7106,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3536428623826382781, guid: 7fb312cb1d15f9a4c94a947a5f41ad32, type: 3}
+      propertyPath: item
+      value: 
+      objectReference: {fileID: 11400000, guid: bedf0463f1e2a93478a3d3674846229f, type: 2}
+    - target: {fileID: 3536428623826382781, guid: 7fb312cb1d15f9a4c94a947a5f41ad32, type: 3}
+      propertyPath: count
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3536428623826382781, guid: 7fb312cb1d15f9a4c94a947a5f41ad32, type: 3}
+      propertyPath: dialog.lines.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3536428623826382781, guid: 7fb312cb1d15f9a4c94a947a5f41ad32, type: 3}
+      propertyPath: dialog.lines.Array.data[0]
+      value: I bought some pokeballs from mark new town
+      objectReference: {fileID: 0}
+    - target: {fileID: 3536428623826382781, guid: 7fb312cb1d15f9a4c94a947a5f41ad32, type: 3}
+      propertyPath: dialog.lines.Array.data[1]
+      value: You can have one.
+      objectReference: {fileID: 0}
     - target: {fileID: 7207596516584249417, guid: 7fb312cb1d15f9a4c94a947a5f41ad32, type: 3}
       propertyPath: m_RootOrder
       value: 1
