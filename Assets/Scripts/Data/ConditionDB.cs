@@ -52,7 +52,7 @@ public class ConditionDB
                 {
                     Name = "Paralyze",
                     StartMessage = "has been Paralyze ",
-                    OnBeforMove = (Pokemon pokemon) =>
+                    OnBeforeMove = (Pokemon pokemon) =>
                     {
                         int value = Random.Range(1, 5);
                         Debug.Log(value);
@@ -72,7 +72,7 @@ public class ConditionDB
                 {
                     Name = "Freeze",
                     StartMessage = "has been frozen ",
-                    OnBeforMove = (Pokemon pokemon) =>
+                    OnBeforeMove = (Pokemon pokemon) =>
                     {
                         pokemon.CureStatus();
                         int value = Random.Range(1, 5);
@@ -99,7 +99,7 @@ public class ConditionDB
                         pokemon.StatusTime = Random.Range(1, 4);
                         Debug.Log($"Will be asleep for {pokemon.StatusTime} move");
                     },
-                    OnBeforMove = (Pokemon pokemon) =>
+                    OnBeforeMove = (Pokemon pokemon) =>
                     {
                         if (pokemon.StatusTime <= 0)
                         {
@@ -128,7 +128,7 @@ public class ConditionDB
                         pokemon.VolatileStatusTime = Random.Range(1, 5);
                         Debug.Log($"Will be confused for {pokemon.VolatileStatusTime} move");
                     },
-                    OnBeforMove = (Pokemon pokemon) =>
+                    OnBeforeMove = (Pokemon pokemon) =>
                     {
                         if (pokemon.VolatileStatusTime <= 0)
                         {

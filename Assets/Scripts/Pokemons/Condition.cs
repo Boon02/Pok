@@ -10,6 +10,6 @@ public class Condition
     public string StartMessage { get; set; }
 
     public Action<Pokemon> OnStart { get; set; }
-    public Func<Pokemon, bool> OnBeforMove { get; set; }
+    public Func<Pokemon, bool> OnBeforeMove { get; set; }
     public Action<Pokemon> OnAfterTurn { get; set; }
 }

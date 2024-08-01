@@ -316,14 +316,14 @@ public class Pokemon
     public bool OnBeforMove()
     {
         bool canPerformMove = true;
-        if (Status?.OnBeforMove != null)
+        if (Status?.OnBeforeMove != null)
         {
-            if (!Status.OnBeforMove(this))
+            if (!Status.OnBeforeMove(this))
                 canPerformMove = false;
         }
-        if (VolatileStatus?.OnBeforMove != null)
+        if (VolatileStatus?.OnBeforeMove != null)
         {
-            if (!VolatileStatus.OnBeforMove(this))
+            if (!VolatileStatus.OnBeforeMove(this))
                 canPerformMove = false;
         }
 
